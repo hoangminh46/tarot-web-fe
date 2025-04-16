@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import './tarotCards.css';
 
 export default function TarotCards() {
   const cardsRef = useRef<HTMLUListElement>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const [isShuffling, setIsShuffling] = useState(false);
   
   useEffect(() => {
     if (!cardsRef.current) return;
@@ -16,8 +18,7 @@ export default function TarotCards() {
     const scaleOffset = 0.02;
     const duration = 0.8;
     const scaleDuration = duration / 3;
-    const tl = gsap.timeline({ repeat: -1, yoyoEase: true });
-
+    
     function driftIn() {
       return gsap.timeline().from(".cards", {
         xPercent: -xOffset / 3,
@@ -79,20 +80,42 @@ export default function TarotCards() {
         );
     }
 
-    function shuffleDeck() {
+    // Chỉ tạo timeline, không tự động chạy
+    function createShuffleDeck() {
+      const tl = gsap.timeline({ 
+        repeat: 3, 
+        yoyoEase: true,
+        onComplete: () => setIsShuffling(false)
+      });
+      
       tl.add(driftIn())
         .add(shuffleCards(), "<")
         .add(scaleCards(), "<")
         .add(driftOut(), "<55%");
+        
+      // Lưu timeline để sử dụng sau
+      tlRef.current = tl;
+      
+      // Tạm dừng timeline (sẽ được kích hoạt bởi button)
+      tl.pause();
     }
 
-    shuffleDeck();
+    createShuffleDeck();
 
     // Cleanup function
     return () => {
-      tl.kill();
+      if (tlRef.current) {
+        tlRef.current.kill();
+      }
     };
   }, []);
+  
+  const handleShuffle = () => {
+    if (tlRef.current && !isShuffling) {
+      setIsShuffling(true);
+      tlRef.current.restart();
+    }
+  };
 
   return (
     <div className="tarot-container">
@@ -110,6 +133,13 @@ export default function TarotCards() {
         <li className="card"></li>
         <li className="card"></li>
       </ul>
+      <button 
+        onClick={handleShuffle}
+        disabled={isShuffling}
+        className="shuffle-button"
+      >
+        Xáo bài
+      </button>
     </div>
   );
 }
