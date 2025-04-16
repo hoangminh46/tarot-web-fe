@@ -7,6 +7,7 @@ import './tarotCards.css';
 export default function TarotCards() {
   const cardsRef = useRef<HTMLUListElement>(null);
   const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const shuffleTlRef = useRef<gsap.core.Timeline | null>(null);
   const [isShuffling, setIsShuffling] = useState(false);
   
   useEffect(() => {
@@ -18,6 +19,53 @@ export default function TarotCards() {
     const scaleOffset = 0.02;
     const duration = 0.8;
     const scaleDuration = duration / 3;
+    
+    // Thiết lập trạng thái ban đầu - Các lá bài trải ra
+    function setupInitialSpread() {
+      gsap.set(cards, {
+        x: (i) => {
+          // Tính toán vị trí từ trái qua phải
+          const xPos = i * 10;
+          return xPos;
+        },
+        y: (i) => {
+          // Tính toán vị trí từ trên xuống dưới với độ cong
+          const angle = -20 + (i * 40 / (cards.length - 1));
+          const yPos = Math.sin((angle + 90) * Math.PI / 180) * 5;
+          return yPos;
+        },
+        rotation: (i) => {
+          // Tính toán góc xoay
+          return -20 + (i * 40 / (cards.length - 1));
+        },
+        scale: 1,
+        zIndex: (i) => i
+      });
+      
+      // Thêm class cho mỗi lá bài
+      cards.forEach(card => {
+        card.classList.add('spread');
+      });
+    }
+    
+    // Animation thu các lá bài vào trước khi xáo
+    function collectCards() {
+      return gsap.timeline()
+        .to(cards, {
+          x: 0,
+          y: 0,
+          rotation: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.02,
+          ease: "power2.inOut",
+          onStart: () => {
+            cards.forEach(card => {
+              card.classList.remove('spread');
+            });
+          }
+        });
+    }
     
     function driftIn() {
       return gsap.timeline().from(".cards", {
@@ -80,12 +128,11 @@ export default function TarotCards() {
         );
     }
 
-    // Chỉ tạo timeline, không tự động chạy
+    // Tạo animation xáo bài (animation gốc)
     function createShuffleDeck() {
       const tl = gsap.timeline({ 
         repeat: 3, 
-        yoyoEase: true,
-        onComplete: () => setIsShuffling(false)
+        yoyoEase: true
       });
       
       tl.add(driftIn())
@@ -93,19 +140,42 @@ export default function TarotCards() {
         .add(scaleCards(), "<")
         .add(driftOut(), "<55%");
         
-      // Lưu timeline để sử dụng sau
-      tlRef.current = tl;
+      // Lưu timeline cho animation xáo bài
+      shuffleTlRef.current = tl;
       
-      // Tạm dừng timeline (sẽ được kích hoạt bởi button)
-      tl.pause();
+      return tl;
     }
 
-    createShuffleDeck();
+    // Tạo timeline chính điều khiển toàn bộ luồng
+    function createMainTimeline() {
+      const mainTl = gsap.timeline({
+        paused: true,
+        onComplete: () => {
+          setIsShuffling(false);
+          setupInitialSpread(); // Trở lại trạng thái trải bài sau khi hoàn thành
+        }
+      });
+      
+      // Luồng animation: thu bài -> xáo bài (3 lần) -> kết thúc
+      mainTl
+        .add(collectCards()) // Thu bài 1 lần
+        .add(createShuffleDeck()); // Thêm timeline xáo bài (lặp lại 3 lần)
+        
+      // Lưu timeline chính
+      tlRef.current = mainTl;
+    }
+
+    // Thiết lập trạng thái ban đầu và animation
+    setupInitialSpread();
+    createMainTimeline();
 
     // Cleanup function
     return () => {
       if (tlRef.current) {
         tlRef.current.kill();
+      }
+      if (shuffleTlRef.current) {
+        shuffleTlRef.current.kill();
       }
     };
   }, []);
