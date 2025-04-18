@@ -6,7 +6,7 @@ import './tarotCards.css';
 import tarot from '@/json/tarot';
 
 // Hàm xáo trộn bài mạnh hơn (Fisher-Yates shuffle)
-const shuffleArray = (array) => {
+const shuffleArray = (array: any) => {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -24,8 +24,14 @@ export default function TarotCards() {
   const [hasShuffled, setHasShuffled] = useState(false);
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [canSelectCards, setCanSelectCards] = useState(false);
-  // Xáo bài ngẫu nhiên ngay khi component được khởi tạo
-  const [shuffledCards, setShuffledCards] = useState(() => shuffleArray(tarot.cards));
+  
+  // Sửa lỗi hydration bằng cách khởi tạo với mảng gốc
+  const [shuffledCards, setShuffledCards] = useState(tarot.cards);
+  
+  // Sử dụng useEffect để xáo bài ở phía client
+  useEffect(() => {
+    setShuffledCards(shuffleArray(tarot.cards));
+  }, []);
   
   useEffect(() => {
     if (!cardsRef.current) return;
@@ -37,20 +43,9 @@ export default function TarotCards() {
     // Thiết lập trạng thái ban đầu - Các lá bài trải ra
     function setupInitialSpread() {
       gsap.to(cards, {
-        x: (i) => {
-          // Tính toán vị trí từ trái qua phải để các lá bài trải rộng hơn
-          return i * 12; // Giảm khoảng cách giữa các lá bài
-        },
-        y: (i) => {
-          // Tính toán vị trí từ trên xuống dưới với độ cong
-          const angle = -20 + (i * 40 / (cards.length - 1));
-          const yPos = Math.sin((angle + 90) * Math.PI / 180) * 6; // Giảm độ cong
-          return yPos;
-        },
-        rotation: (i) => {
-          // Tính toán góc xoay
-          return -20 + (i * 40 / (cards.length - 1));
-        },
+        x: (i) => i * 12, // Khoảng cách ngang giữa các lá bài
+        y: 0,
+        rotation: 0, // Thẳng hàng, không nghiêng
         xPercent: 25,
         yPercent: 0,
         scale: 1,
@@ -58,7 +53,6 @@ export default function TarotCards() {
         duration: 0.8,
         ease: "power2.out",
         onComplete: () => {
-          // Thêm class cho mỗi lá bài
           cards.forEach(card => {
             card.classList.add('spread');
           });
@@ -73,8 +67,8 @@ export default function TarotCards() {
       .to(cards, {
         x: 0,
         y: 0,
-        rotation: 0,
-        xPercent: 25,
+        rotation: 0, // Giữ thẳng hàng
+        xPercent: 25, // Giữ nhất quán với setupInitialSpread
         yPercent: 0,
         scale: 1,
         duration: 0.5,
@@ -143,17 +137,16 @@ export default function TarotCards() {
         onComplete: () => {
           setIsShuffling(false);
           setHasShuffled(true);
-          setCanSelectCards(true); // Cho phép chọn bài sau khi xáo xong
-          setupInitialSpread(); // Trở lại trạng thái trải bài sau khi hoàn thành
+          setCanSelectCards(true);
+          
+          setupInitialSpread(); // Trải bài lại với vị trí nhất quán
         }
       });
       
-      // Luồng animation: thu bài -> xáo bài (3 lần) -> kết thúc
       mainTl
-        .add(collectCards()) // Thu bài 1 lần
-        .add(createShuffleDeck()); // Thêm timeline xáo bài
+        .add(collectCards())
+        .add(createShuffleDeck());
         
-      // Lưu timeline chính
       tlRef.current = mainTl;
     }
 
@@ -173,54 +166,89 @@ export default function TarotCards() {
   }, []);
   
   useEffect(() => {
-    if (!cardsRef.current || !hasShuffled || !isSpreadComplete) return;
+    if (!cardsRef.current) return;
     
     const cards = cardsRef.current.querySelectorAll(".card");
-    const initialPositions = Array.from(cards).map(card => {
-      const transform = window.getComputedStyle(card).transform;
-      const matrix = new DOMMatrix(transform);
-      return matrix.f; // Lấy giá trị y từ ma trận transform
+    
+    // Định nghĩa các hàm xử lý sự kiện
+    const handleMouseEnter = (e: Event) => {
+      // Chỉ thực hiện khi không đang xáo bài
+      if (isShuffling) return;
+      
+      const card = e.currentTarget as HTMLElement;
+      // Chỉ hover nếu chưa được chọn và còn chọn được
+      if (!card.classList.contains('selected') && canSelectCards && selectedCards.length < 5) {
+        gsap.to(card, { 
+          y: -12, // Đặt vị trí tuyệt đối khi hover
+          duration: 0.1 
+        });
+      }
+    };
+    
+    const handleMouseLeave = (e: Event) => {
+      // Chỉ thực hiện khi không đang xáo bài
+      if (isShuffling) return;
+      
+      const card = e.currentTarget as HTMLElement;
+      // Chỉ đưa về vị trí ban đầu nếu chưa được chọn
+      if (!card.classList.contains('selected') && canSelectCards) {
+        gsap.to(card, { 
+          y: 0, // Trở về vị trí mặc định
+          duration: 0.1 
+        });
+      }
+    };
+    
+    // Thêm event listener cho mỗi lá bài
+    cards.forEach((card) => {
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
     });
     
-    cards.forEach((card, index) => {
-      const initialY = initialPositions[index];
-      
-      card.addEventListener("mouseenter", () => {
-        // Không nâng lá bài đã được chọn hoặc khi đã chọn đủ 5 lá
-        if (!card.classList.contains('selected') && canSelectCards && selectedCards.length < 5) {
-          gsap.to(card, { y: "-=12", duration: 0.1 }); // Giảm từ 15px xuống 12px
+    // Đảm bảo lá bài đã chọn luôn ở vị trí cao hơn (chỉ khi không đang xáo bài)
+    if (!isShuffling) {
+      selectedCards.forEach(cardName => {
+        const cardElement = document.getElementById(cardName);
+        if (cardElement) {
+          gsap.to(cardElement, { 
+            y: -20, // Giữ ở vị trí cao hơn
+            duration: 0.1 
+          });
         }
       });
-      
-      card.addEventListener("mouseleave", () => {
-        // Chỉ đưa về vị trí ban đầu nếu chưa được chọn
-        if (!card.classList.contains('selected') && canSelectCards) {
-          gsap.to(card, { y: initialY, duration: 0.1 });
-        }
-      });
-    });
+    }
     
+    // Cleanup function xóa đúng các event listener đã thêm
     return () => {
       cards.forEach(card => {
-        card.removeEventListener("mouseenter", () => {});
-        card.removeEventListener("mouseleave", () => {});
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
       });
     };
-  }, [hasShuffled, isSpreadComplete, canSelectCards, selectedCards]);
+  }, [hasShuffled, isSpreadComplete, canSelectCards, selectedCards, isShuffling]);
   
   const handleShuffle = () => {
+    const shuffledDeck = shuffleArray(tarot.cards);
+    setShuffledCards(shuffledDeck);
+    
+    // Reset tất cả các lá bài về vị trí ban đầu trước khi xáo
+    if (cardsRef.current) {
+      const cards = cardsRef.current.querySelectorAll(".card");
+      // Reset vị trí y về 0 và xóa class selected
+      gsap.to(cards, {
+        y: 0,
+        duration: 0.2
+      });
+      
+      cards.forEach(card => {
+        card.classList.remove('selected');
+      });
+    }
+    
     if (tlRef.current && !isShuffling) {
       setIsShuffling(true);
-      // Reset các lá bài đã chọn khi xáo lại
       setSelectedCards([]);
       setCanSelectCards(false);
-      
-      // Xáo trộn thứ tự các lá bài bằng thuật toán Fisher-Yates
-      const shuffledDeck = shuffleArray(tarot.cards);
-      
-      // Cập nhật state với danh sách các lá bài đã được xáo trộn
-      setShuffledCards(shuffledDeck);
-      
       tlRef.current.restart();
     }
   };
@@ -239,11 +267,16 @@ export default function TarotCards() {
         setSelectedCards(prev => [...prev, cardName]);
         
         // Tìm và thêm class cho lá bài đã chọn
-        // const cardElement = document.getElementById(cardName);
-        // if (cardElement) {
-        //   cardElement.classList.add('selected');
-        //   // Bỏ hiệu ứng nâng lá bài lên
-        // }
+        const cardElement = document.getElementById(cardName);
+        if (cardElement) {
+          cardElement.classList.add('selected');
+          // Nâng lá bài lên cao hơn khi được chọn và giữ nguyên vị trí đó
+          gsap.to(cardElement, {
+            y: -20, // Đặt vị trí tuyệt đối cao hơn
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        }
       }
     }
   };
@@ -251,9 +284,9 @@ export default function TarotCards() {
   return (
     <div className="tarot-container">
       <ul className={`cards ${isSpreadComplete ? 'spread-complete' : ''} ${hasShuffled ? 'has-shuffled' : ''}`} ref={cardsRef}>
-        {shuffledCards.map((card) => (
+        {shuffledCards.map((card, index) => (
           <li 
-            key={card.name} 
+            key={index}
             id={card.name} 
             className={`card ${selectedCards.includes(card.name) ? 'selected' : ''}`}
             onClick={() => handleCardClick(card.name)}
@@ -268,7 +301,6 @@ export default function TarotCards() {
         >
           Xáo bài
         </button>
-        {canSelectCards && (
           <div className="selection-info">
             <p>Đã chọn: {selectedCards.length}/5 lá bài</p>
             {selectedCards.length > 0 ? (
@@ -281,7 +313,6 @@ export default function TarotCards() {
               <p>Không có lá bài nào được chọn</p>
             )}
           </div>
-        )}
       </div>
     </div>
   );

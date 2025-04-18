@@ -59,11 +59,6 @@
   transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
-.has-shuffled.spread-complete .card.spread:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-}
 /* Xóa bỏ hoặc vô hiệu hóa các hiệu ứng hover cũ */
 .spread-complete .card.spread {
   transition: none;
