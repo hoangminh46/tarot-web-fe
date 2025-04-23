@@ -25,6 +25,9 @@ export default function TarotCards() {
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
   const [canSelectCards, setCanSelectCards] = useState(false);
   
+  // Lưu thông tin chi tiết của lá bài đã chọn
+  const [selectedCardDetails, setSelectedCardDetails] = useState<any[]>([]);
+  
   // Sửa lỗi hydration bằng cách khởi tạo với mảng gốc
   const [shuffledCards, setShuffledCards] = useState(tarot.cards);
   
@@ -43,10 +46,10 @@ export default function TarotCards() {
     // Thiết lập trạng thái ban đầu - Các lá bài trải ra
     function setupInitialSpread() {
       gsap.to(cards, {
-        x: (i) => i * 12, // Khoảng cách ngang giữa các lá bài
+        x: (i) => i * 14, // Khoảng cách ngang giữa các lá bài
         y: 0,
         rotation: 0, // Thẳng hàng, không nghiêng
-        xPercent: 25,
+        xPercent: 0,
         yPercent: 0,
         scale: 1,
         zIndex: (i) => i,
@@ -68,7 +71,7 @@ export default function TarotCards() {
         x: 0,
         y: 0,
         rotation: 0, // Giữ thẳng hàng
-        xPercent: 25, // Giữ nhất quán với setupInitialSpread
+        xPercent: 0, // Giữ nhất quán với setupInitialSpread
         yPercent: 0,
         scale: 1,
         duration: 0.5,
@@ -90,7 +93,7 @@ export default function TarotCards() {
           x: 0,
           y: 0,
           rotation: 0,
-          xPercent: 25,
+          xPercent: 0,
           yPercent: 0,
           duration: 0.1,
           ease: "power2.out",
@@ -100,13 +103,13 @@ export default function TarotCards() {
           {
             x: 0,
             rotation: 0,
-            xPercent: 25,
+            xPercent: 0,
             yPercent: 0
           },
           {
             duration: duration,
             rotation: 0,
-            xPercent: 25 + xOffset,
+            xPercent: 0 + xOffset,
             yPercent: -10,
             stagger: duration * 0.04,
             ease: "expo.inOut",
@@ -248,8 +251,68 @@ export default function TarotCards() {
     if (tlRef.current && !isShuffling) {
       setIsShuffling(true);
       setSelectedCards([]);
+      setSelectedCardDetails([]);
       setCanSelectCards(false);
       tlRef.current.restart();
+    }
+  };
+
+  // Hiệu ứng lật thẻ bài cho lá bài bí ẩn
+  const flipCardToReveal = (index: number, cardInfo: any) => {
+    const mysteryCardItem = document.querySelectorAll('.mystery-card-item')[index] as HTMLElement;
+    const mysteryCardElement = mysteryCardItem.querySelector('.mystery-card') as HTMLElement;
+    
+    if (mysteryCardElement) {
+      // Tạo phần tử mặt trước và mặt sau đơn giản
+      const frontFace = document.createElement('div');
+      frontFace.className = 'card-face card-front';
+      frontFace.innerHTML = `<img src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" />`;
+      
+      const backFace = document.createElement('div');
+      backFace.className = 'card-face card-back';
+      backFace.innerHTML = `<img src="${cardInfo.img}" alt="${cardInfo.name}" />`;
+      
+      // Xóa hình ảnh cũ và thêm mặt trước và mặt sau
+      mysteryCardElement.innerHTML = '';
+      mysteryCardElement.appendChild(frontFace);
+      mysteryCardElement.appendChild(backFace);
+      
+      // Tạo hiệu ứng lật đơn giản
+      const flipTl = gsap.timeline();
+      
+      gsap.to(mysteryCardElement, {
+        boxShadow: '0 0 15px 5px rgba(255, 215, 0, 0.7)',
+        duration: 0.3
+      });
+      
+      flipTl
+        .to(mysteryCardElement, {
+          duration: 0.2,
+          ease: "power2.out"
+        })
+        .to(mysteryCardElement, {
+          rotationY: 180,
+          duration: 0.4,
+          ease: "power4.inOut",
+          onComplete: () => {
+            mysteryCardElement.classList.add('flipped');
+          }
+        });
+        
+      // Hiển thị tên lá bài
+      const cardNameElement = document.createElement('div');
+      cardNameElement.className = 'card-name';
+      cardNameElement.textContent = cardInfo.name;
+      gsap.set(cardNameElement, { opacity: 0 });
+      
+      setTimeout(() => {
+        mysteryCardItem.appendChild(cardNameElement);
+        gsap.to(cardNameElement, {
+          opacity: 1,
+          duration: 0.5,
+          ease: "power2.out"
+        });
+      }, 800);
     }
   };
 
@@ -263,19 +326,30 @@ export default function TarotCards() {
       
       // Chỉ cho phép chọn tối đa 5 lá bài
       if (selectedCards.length < 5) {
-        // Thêm lá bài vào danh sách đã chọn
-        setSelectedCards(prev => [...prev, cardName]);
+        // Tìm thông tin chi tiết của lá bài
+        const cardInfo = shuffledCards.find(card => card.name === cardName);
         
-        // Tìm và thêm class cho lá bài đã chọn
-        const cardElement = document.getElementById(cardName);
-        if (cardElement) {
-          cardElement.classList.add('selected');
-          // Nâng lá bài lên cao hơn khi được chọn và giữ nguyên vị trí đó
-          gsap.to(cardElement, {
-            y: -20, // Đặt vị trí tuyệt đối cao hơn
-            duration: 0.3,
-            ease: "power2.out"
-          });
+        if (cardInfo) {
+          // Thêm lá bài vào danh sách đã chọn
+          setSelectedCards(prev => [...prev, cardName]);
+          
+          // Lưu thông tin chi tiết của lá bài
+          setSelectedCardDetails(prev => [...prev, cardInfo]);
+          
+          // Thêm hiệu ứng lật lá bài bí ẩn tương ứng
+          flipCardToReveal(selectedCards.length, cardInfo);
+          
+          // Tìm và thêm class cho lá bài đã chọn
+          const cardElement = document.getElementById(cardName);
+          if (cardElement) {
+            cardElement.classList.add('selected');
+            // Nâng lá bài lên cao hơn khi được chọn và giữ nguyên vị trí đó
+            gsap.to(cardElement, {
+              y: -20, // Đặt vị trí tuyệt đối cao hơn
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          }
         }
       }
     }
@@ -316,7 +390,8 @@ export default function TarotCards() {
       <div className="mystery-cards-container">
         {cardTitles.map((title, index) => (
           <div key={index} className="mystery-card-item">
-            <div className="mystery-card">
+            <div className={`mystery-card ${selectedCardDetails[index] ? 'revealed' : ''}`}>
+              {/* Mặc định hiển thị hình ảnh bí ẩn, sẽ được thay thế bởi code JavaScript khi lật */}
               <img src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" />
             </div>
             <div className="mystery-card-title">{title}</div>
