@@ -281,6 +281,15 @@ export default function TarotCards() {
     }
   };
 
+  // Mảng chứa tiêu đề cho 5 lá bài
+  const cardTitles = [
+    "Hiện tại",
+    "Thách thức", 
+    "Lời khuyên", 
+    "Điều cần thức tỉnh", 
+    "Kết quả tiềm năng"
+  ];
+
   return (
     <div className="tarot-container">
       <ul className={`cards ${isSpreadComplete ? 'spread-complete' : ''} ${hasShuffled ? 'has-shuffled' : ''}`} ref={cardsRef}>
@@ -301,18 +310,18 @@ export default function TarotCards() {
         >
           Xáo bài
         </button>
-          <div className="selection-info">
-            <p>Đã chọn: {selectedCards.length}/5 lá bài</p>
-            {selectedCards.length > 0 ? (
-              <ul className="selected-cards-list">
-                {selectedCards.map((cardName, index) => (
-                  <li key={index}>{cardName}</li>
-                ))}
-              </ul>
-            ) : (
-              <p>Không có lá bài nào được chọn</p>
-            )}
+      </div>
+
+      {/* Phần hiển thị 5 lá bài bí ẩn với tiêu đề */}
+      <div className="mystery-cards-container">
+        {cardTitles.map((title, index) => (
+          <div key={index} className="mystery-card-item">
+            <div className="mystery-card">
+              <img src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" />
+            </div>
+            <div className="mystery-card-title">{title}</div>
           </div>
+        ))}
       </div>
     </div>
   );
