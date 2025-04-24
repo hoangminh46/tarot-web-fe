@@ -281,7 +281,6 @@ export default function TarotCards() {
       const flipTl = gsap.timeline();
       
       gsap.to(mysteryCardElement, {
-        boxShadow: '0 0 15px 5px rgba(255, 215, 0, 0.7)',
         duration: 0.3
       });
       
@@ -365,36 +364,38 @@ export default function TarotCards() {
   ];
 
   return (
-    <div className="tarot-container">
-      <ul className={`cards ${isSpreadComplete ? 'spread-complete' : ''} ${hasShuffled ? 'has-shuffled' : ''}`} ref={cardsRef}>
+    <div className="flex flex-col items-center overflow-hidden h-screen w-full">
+      <ul className={`flex relative list-none p-0 mt-10 w-[1140px] h-[30vmin] ${isSpreadComplete ? 'spread-complete' : ''} ${hasShuffled ? 'has-shuffled' : ''}`} ref={cardsRef}>
         {shuffledCards.map((card, index) => (
           <li 
             key={index}
             id={card.name} 
-            className={`card ${selectedCards.includes(card.name) ? 'selected' : ''}`}
+            className={`flex absolute w-[15vmin] h-[calc(15vmin*256/147)] bg-[url('/svgTarot/card.svg')] bg-contain bg-no-repeat will-change-transform origin-center card ${selectedCards.includes(card.name) ? 'selected pointer-events-none opacity-100 brightness-[0.8]' : ''}`}
             onClick={() => handleCardClick(card.name)}
           ></li>
         ))}
       </ul>
-      <div className="control-panel">
+      <div className="flex flex-col items-center gap-4">
         <button 
           onClick={handleShuffle}
           disabled={isShuffling}
-          className="shuffle-button"
+          className="py-2.5 px-5 rounded bg-[#272727] text-white border-none cursor-pointer text-base z-10 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           Xáo bài
         </button>
       </div>
 
       {/* Phần hiển thị 5 lá bài bí ẩn với tiêu đề */}
-      <div className="mystery-cards-container">
+      <div className="flex justify-center gap-[30px] w-full flex-wrap mt-[50px]">
         {cardTitles.map((title, index) => (
-          <div key={index} className="mystery-card-item">
-            <div className={`mystery-card ${selectedCardDetails[index] ? 'revealed' : ''}`}>
+          <div key={index} className="flex flex-col items-center gap-2.5 mystery-card-item">
+            <div className={`w-[143px] h-[253px] overflow-visible rounded-lg perspective-[1000px] preserve-3d transition-transform duration-300 ease-in-out relative mystery-card ${selectedCardDetails[index] ? 'revealed' : ''}`}>
               {/* Mặc định hiển thị hình ảnh bí ẩn, sẽ được thay thế bởi code JavaScript khi lật */}
-              <img src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" />
+              <img src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" className="w-full h-full object-contain" />
             </div>
-            <div className="mystery-card-title">{title}</div>
+            <div className="text-sm font-bold text-center text-[#333] bg-[#f5eee6] py-1.5 px-2.5 rounded shadow-[0_2px_4px_rgba(0,0,0,0.1)] mystery-card-title">
+              {title}
+            </div>
           </div>
         ))}
       </div>
