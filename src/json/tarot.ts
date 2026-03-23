@@ -1,4 +1,12 @@
-const tarot = {
+export interface TarotCard {
+  name: string;
+  number: string;
+  arcana: string;
+  suit: string | null;
+  img: string;
+}
+
+const tarot: { cards: TarotCard[] } = {
   cards: [
     {
       name: "The Fool",
