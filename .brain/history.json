@@ -1,0 +1,34 @@
+{
+  "entries": [
+    {
+      "id": "handoff-20260330-2257",
+      "saved_at": "2026-03-30T22:57:55+07:00",
+      "branch": "develop",
+      "head_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+      "base_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+      "source": "commit",
+      "commit_range": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+      "summary": "Hoàn thành Phase 1: Tạo dựng xong layer Data & Assets. Gắn mapping 78 ảnh lá bài thành công với database src/json/tarot.ts.",
+      "project_changes": [
+        "Hoàn chỉnh thư mục tải cards trong public/cards",
+        "Nạp bộ JSON Schema đầy đủ từ dự án cho từng lá, các aspect và mapping array"
+      ],
+      "commits": [
+        {
+          "sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+          "message": "feat: update card and tarot dataset"
+        }
+      ],
+      "working_tree": [],
+      "decisions": [
+        "Sử dụng regex script trực tiếp để fix file tarot.ts thay vì parse JSON dung lượng lớn nhằm giữ syntax JS gốc.",
+        "Xóa toàn bộ ảnh bài cũ (m01, c01...) để dùng ảnh việt hóa tên tiếng anh mới (1-The-Magician.jpg)."
+      ],
+      "next_steps": [
+        "Triển khai GSAP cho Card Component (hoàn thiện UI layer với dark mystical themes)",
+        "Bắt đầu xử lý tính năng Reading flow (lật lá bài, animation chờ)."
+      ],
+      "open_questions": []
+    }
+  ]
+}
