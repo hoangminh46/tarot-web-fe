@@ -29,6 +29,76 @@
         "Bắt đầu xử lý tính năng Reading flow (lật lá bài, animation chờ)."
       ],
       "open_questions": []
+    },
+    {
+      "id": "handoff-20260331-0957",
+      "saved_at": "2026-03-31T09:57:00+07:00",
+      "branch": "develop",
+      "head_sha": "fd53405f1fcd542c7ba0a4965f84d7ac39033f11",
+      "base_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+      "source": "commit",
+      "commit_range": "2a954f0..fd53405",
+      "summary": "Đồng bộ memory sau khi chuyển đổi CSS sang Tailwind CSS v4 và merge remote. Phase 1 (Data & Assets) vẫn ổn định. Chuẩn bị bước vào Phase 2: Card UI Component.",
+      "project_changes": [
+        "Chuyển đổi tarotCards.css từ vanilla CSS sang Tailwind CSS v4 utility classes",
+        "Cập nhật tarotCards.tsx để dùng Tailwind classes",
+        "Khởi tạo .brain/ memory system"
+      ],
+      "commits": [
+        {
+          "sha": "2c5b169",
+          "message": "update css to tailwind"
+        },
+        {
+          "sha": "ed82ed9",
+          "message": "feat: first save brain"
+        },
+        {
+          "sha": "fd53405",
+          "message": "Merge branch 'develop'"
+        }
+      ],
+      "working_tree": [],
+      "decisions": [
+        "Chuyển hoàn toàn sang Tailwind CSS v4 để thống nhất styling approach trong dự án."
+      ],
+      "next_steps": [
+        "Triển khai Card Component UI: hiệu ứng flip, glow border, GSAP animations với dark mystical theme",
+        "Thiết kế và code Reading Flow: luồng trải bài nghi thức",
+        "Cấu hình Next.js API Routes cho LLM integration"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "handoff-20260331-1721",
+      "saved_at": "2026-03-31T17:21:00+07:00",
+      "branch": "develop",
+      "head_sha": "db592045e86b4115285f0dfce58e2f5613855a1e",
+      "base_sha": "fd53405f1fcd542c7ba0a4965f84d7ac39033f11",
+      "source": "commit",
+      "commit_range": "fd53405..db59204",
+      "summary": "Hoàn tất xây dựng toàn bộ UI/UX cho Journey Form Modal. Đã tích hợp Framer Motion để tạo hiệu ứng chuyển cảnh mượt mà. Form đã sẵn sàng để móc với hệ thống gọi API LLM cho luồng Reading Flow tiếp theo.",
+      "project_changes": [
+        "Thiết lập package framer-motion",
+        "Tạo các Custom pickers cho form: DateModal, Select/Select Option Dropdown layout, Tabs và Grid layouts",
+        "Thêm Focus Screen animation giả lập hiệu ứng loading delay 15s"
+      ],
+      "commits": [
+        {
+          "sha": "db59204",
+          "message": "feat(landing): implement complete mystical journey form with custom UI pickers and focus screen"
+        }
+      ],
+      "working_tree": [],
+      "decisions": [
+        "Sử dụng Modal dùng React createPortal kèm disable click-outside để khóa flow user trên 1 trang duy nhất, tránh ấn nhầm thoát.",
+        "Mô phỏng 100% UI gốc, bao gồm fake CSS columns scroll + custom DOM thay vì Select native để giữ được concept thần bí."
+      ],
+      "next_steps": [
+        "Kết nối state form ra ngoài, xử lý nút Mở Bài sẽ trigger logic rút bài thực sự.",
+        "Implement màn hình Draw Cards (Lật lá/rút bài)."
+      ],
+      "open_questions": []
     }
   ]
 }

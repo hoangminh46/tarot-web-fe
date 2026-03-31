@@ -1,26 +1,359 @@
 @import "tailwindcss";
 
+/* ============================================
+   TAROT WEB — GLOBAL THEME VARIABLES
+   Tarotoo Style: Deep Purple / Antique Gold
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Core Palette (Tarotoo-inspired deep purple) ── */
+  --c-void: #0a0512;
+  --c-deep: #11081e;
+  --c-dark: #1a0e2e;
+  --c-mid: #2d1854;
+
+  /* ── Purple / Violet Spectrum (richer, less neon) ── */
+  --c-purple: #4c3398;
+  --c-violet: #7b5ea7;
+  --c-glow: #b69df0;
+  --c-pale: #d4c4f0;
+
+  /* ── Antique Gold Accent (warm, muted) ── */
+  --c-gold: #d8ba91;
+  --c-gold-bright: #e8d0a8;
+  --c-gold-pale: #f5e6cc;
+
+  /* ── Neutral Text ── */
+  --c-white: rgba(255, 255, 255, 0.92);
+  --c-muted: rgba(255, 255, 255, 0.45);
+
+  /* ── Card Dimensions ── */
+  --card-w: 130px;
+  --card-h: 220px;
+
+  /* ── Easing ── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Semantic Backgrounds (Glassmorphism panels) ── */
+  --bg-panel: rgba(17, 8, 30, 0.75);
+  --bg-panel-solid: rgba(26, 14, 46, 0.88);
+  --bg-overlay: rgba(10, 5, 18, 0.6);
+
+  /* ── Semantic Borders ── */
+  --border-subtle: rgba(123, 94, 167, 0.15);
+  --border-medium: rgba(123, 94, 167, 0.30);
+  --border-strong: rgba(123, 94, 167, 0.50);
+  --border-gold: rgba(216, 186, 145, 0.30);
+
+  /* ── Glow / Shadow presets ── */
+  --shadow-purple-sm: 0 4px 18px rgba(76, 51, 152, 0.25);
+  --shadow-purple-md: 0 8px 32px rgba(76, 51, 152, 0.3);
+  --shadow-purple-lg: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(76, 51, 152, 0.2);
+  --shadow-gold-sm: 0 0 20px rgba(216, 186, 145, 0.2);
+  --shadow-gold-md: 0 0 30px rgba(216, 186, 145, 0.4);
+
+  /* ── Font Family Fallbacks ── */
+  --font-display: var(--font-cinzel-decorative), "Cinzel Decorative", serif;
+  --font-heading: var(--font-cinzel), "Cinzel", serif;
+  --font-ui: var(--font-philosopher), "Philosopher", serif;
+  --font-body: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
 }
 
+/* ── Register colors & fonts into Tailwind v4 ── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Core palette */
+  --color-void: var(--c-void);
+  --color-deep: var(--c-deep);
+  --color-dark: var(--c-dark);
+  --color-mid: var(--c-mid);
+
+  /* Purple spectrum */
+  --color-purple: var(--c-purple);
+  --color-violet: var(--c-violet);
+  --color-glow: var(--c-glow);
+  --color-pale: var(--c-pale);
+
+  /* Gold spectrum */
+  --color-gold: var(--c-gold);
+  --color-gold-bright: var(--c-gold-bright);
+  --color-gold-pale: var(--c-gold-pale);
+
+  /* Neutral */
+  --color-white-soft: var(--c-white);
+  --color-muted: var(--c-muted);
+
+  /* Semantic */
+  --color-panel: var(--bg-panel);
+  --color-panel-solid: var(--bg-panel-solid);
+  --color-overlay: var(--bg-overlay);
+
+  /* Fonts — maps to Tailwind font-display, font-heading, etc. */
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  --font-ui: var(--font-ui);
+  --font-body: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================
+   GLOBAL BASE STYLES
+   ============================================ */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--c-void);
+  color: var(--c-white);
+  font-family: var(--font-body);
+  /* Mystical Default Cursor: White arrow, gold border + glow, and a floating purple star */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cdefs%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='1.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M6 3 L20 15 L12 16 L8 24 Z' fill='%23ffffff' stroke='%23d8ba91' stroke-width='1.2' stroke-linejoin='round' filter='url(%23glow)'/%3E%3Cpath d='M22 6 L23 10 L27 11 L23 12 L22 16 L21 12 L17 11 L21 10 Z' fill='%23b69df0'/%3E%3C/svg%3E") 6 3, auto;
+}
+
+a, button, [role="button"], input, select, textarea, .cursor-pointer {
+  /* Mystical Pointer Cursor: Glowing golden star */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cdefs%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='2' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M16 2 L19 13 L30 16 L19 19 L16 30 L13 19 L2 16 L13 13 Z' fill='%23d8ba91' filter='url(%23glow)'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23ffffff'/%3E%3C/svg%3E") 16 16, pointer !important;
+}
+
+/* ── Smooth scrollbar for panels ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(123, 94, 167, 0.25);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(123, 94, 167, 0.45);
+}
+
+/* ============================================
+   BACKGROUND LAYERS
+   Nebula + Vignette + Fog + Sigil
+   ============================================ */
+.bg-nebula {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Lớp quầng sáng trung tâm: gradient 15-stop siêu mịn (Tarotoo technique) */
+.bg-nebula::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220%;
+  padding: 160% 0;
+  border-radius: 50%;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    #7b47c9 0%, #7a47c8 3%, #7845c4 7%, #7443be 10%,
+    #6f40b5 15%, #693cab 19%, #6238a0 22%, #5a3492 24.5%,
+    #512e84 27.8%, #472974 31%, #3d2364 34.5%, #331d53 37.8%,
+    #291743 42%, #211336 46%, #1e1131 50%
+  );
+  opacity: 0.6;
+  animation: nebulaDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+  from {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0.65;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+.bg-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(ellipse 75% 75% at 50% 50%, transparent 35%, rgba(10, 5, 18, 0.85) 100%);
+  pointer-events: none;
+}
+
+/* Star field particles — CSS version, complemented by JS dynamic stars */
+.bg-stars {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 15%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 25% 45%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2.5px 2.5px at 45% 35%, rgba(182,157,240,0.8), transparent), /* Center cluster */
+    radial-gradient(1.5px 1.5px at 55% 50%, rgba(255,255,255,0.9), transparent), /* Center cluster */
+    radial-gradient(2px 2px at 40% 60%, rgba(255,255,255,0.7), transparent), /* Center cluster */
+    radial-gradient(3px 3px at 50% 45%, rgba(182,157,240,0.6), transparent), /* Center cluster */
+    radial-gradient(1.5px 1.5px at 15% 80%, rgba(255,255,255,0.45), transparent),
+    radial-gradient(2px 2px at 90% 85%, rgba(255,255,255,0.55), transparent),
+    radial-gradient(2.5px 2.5px at 50% 25%, rgba(216,186,145,0.7), transparent), /* Center top */
+    radial-gradient(1.5px 1.5px at 35% 55%, rgba(255,255,255,0.8), transparent), /* Center cluster */
+    radial-gradient(2px 2px at 60% 40%, rgba(182,157,240,0.85), transparent), /* Center cluster */
+    radial-gradient(1.5px 1.5px at 80% 70%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 65% 55%, rgba(216,186,145,0.6), transparent), /* Center cluster */
+    radial-gradient(1.5px 1.5px at 45% 75%, rgba(255,255,255,0.65), transparent), /* Center bottom */
+    radial-gradient(2px 2px at 95% 15%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2.5px 2.5px at 55% 30%, rgba(182,157,240,0.7), transparent); /* Center cluster */
+  background-size: 100% 100%;
+  animation: starsTwinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes starsTwinkle {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* Film grain noise texture (Tarotoo technique: base64 PNG repeat) */
+.bg-noise {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.18;
+  background: url("data:image/png;base64,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") repeat;
+  background-size: 120px;
+}
+
+/* Mystical Fog Layer */
+.bg-vignette::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 55vh;
+  background:
+    radial-gradient(ellipse at bottom, rgba(76, 51, 152, 0.12) 0%, transparent 65%),
+    linear-gradient(to top, rgba(10, 5, 18, 0.9) 0%, rgba(26, 14, 46, 0.2) 55%, transparent 100%);
+  pointer-events: none;
+  animation: fogDrift 16s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes fogDrift {
+  0% {
+    transform: scaleY(1) translateX(-3%);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scaleY(1.2) translateX(3%);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   REUSABLE KEYFRAME ANIMATIONS
+   ============================================ */
+
+/* Gentle floating up-down */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Breathing glow pulse */
+@keyframes breathe {
+  0% { opacity: 0.7; filter: brightness(1.2); }
+  100% { opacity: 1; filter: brightness(1.6); }
+}
+
+/* Slow rotation */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Rune character pulse */
+@keyframes runePulse {
+  0% { opacity: 0.5; text-shadow: 0 0 6px rgba(216, 186, 145, 0.3); }
+  100% { opacity: 0.9; text-shadow: 0 0 14px rgba(216, 186, 145, 0.6); }
+}
+
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Scale entrance */
+@keyframes scaleIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Slide up reveal */
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Title breathing glow */
+@keyframes titleBreathe {
+  0% {
+    transform: scale(0.99);
+    filter: drop-shadow(0 0 20px rgba(182, 157, 240, 0.4));
+  }
+  100% {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 40px rgba(182, 157, 240, 0.8));
+  }
+}
+
+/* Sigil breathing glow */
+@keyframes sigilBreath {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+    filter: brightness(1.2) drop-shadow(0 0 20px rgba(76, 51, 152, 0.5));
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+    filter: brightness(1.6) drop-shadow(0 0 40px rgba(182, 157, 240, 0.8));
+  }
+}
+
+/* Button aura pulse */
+@keyframes auraPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(76, 51, 152, 0.3), 0 0 30px rgba(76, 51, 152, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(76, 51, 152, 0.5), 0 0 50px rgba(76, 51, 152, 0.2);
+  }
+}
+
+/* Dynamic star blink — JS particles */
+@keyframes starBlink {
+  0% { opacity: 0.15; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+/* Shake animation for validation */
+@keyframes validationShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: validationShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }

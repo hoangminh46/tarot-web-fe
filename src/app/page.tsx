@@ -1,9 +1,5 @@
-import TarotCards from "./components/tarotCards";
+import LandingPage from "./components/landing/LandingPage";
 
 export default function Home() {
-  return (
-    <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <TarotCards />
-    </div>
-  );
+  return <LandingPage />;
 }

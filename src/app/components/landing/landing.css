@@ -1,0 +1,367 @@
+/* ============================================
+   LANDING PAGE — Animations & Styles
+   Tarotoo-inspired: Deep Purple / Antique Gold
+   ============================================ */
+
+/* ── Landing center gentle float ── */
+.landing-center {
+  animation: centerFloat 10s ease-in-out infinite alternate;
+}
+
+@keyframes centerFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-12px); }
+}
+
+/* ── Background sigil: slow reverse spin + breathing glow ── */
+.bg-sigil-svg {
+  animation:
+    spin-slow 80s linear infinite reverse,
+    bgSigilBreath 8s ease-in-out infinite alternate;
+  opacity: 0.85;
+}
+
+@keyframes bgSigilBreath {
+  from {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 20px rgba(216, 186, 145, 0.3));
+  }
+  to {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 30px rgba(76, 51, 152, 0.4));
+  }
+}
+
+/* ── Front sigil: spin + glow ── */
+.sigil-svg {
+  animation: spin-slow 20s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(76, 51, 152, 0.5));
+}
+
+.sigil-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(76, 51, 152, 0.3) 0%,
+    rgba(182, 157, 240, 0.08) 40%,
+    transparent 75%
+  );
+  animation: sigilBreath 3.5s ease-in-out infinite alternate;
+}
+
+/* ── Title reveal animation ── */
+.landing-title {
+  filter: drop-shadow(0 0 25px rgba(182, 157, 240, 0.5));
+  animation: titleBreathe 6s ease-in-out infinite alternate;
+}
+
+.title-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: wordReveal 0.8s var(--ease-out) forwards;
+  animation-delay: calc(var(--wi) * 0.15s + 0.3s);
+}
+
+@keyframes wordReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Rune characters ── */
+.rune {
+  animation: runePulse 2.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 5px rgba(216, 186, 145, 0.25);
+}
+
+.rune:nth-child(3) { animation-delay: 0.8s; }
+.rune:nth-child(5) { animation-delay: 1.6s; }
+.rune:nth-child(7) { animation-delay: 2.4s; }
+
+.rune-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(123, 94, 167, 0.7);
+  box-shadow: 0 0 6px rgba(76, 51, 152, 0.5);
+  animation: dotPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes dotPulse {
+  from {
+    background: rgba(76, 51, 152, 0.5);
+    box-shadow: 0 0 4px rgba(76, 51, 152, 0.3);
+  }
+  to {
+    background: rgba(182, 157, 240, 0.8);
+    box-shadow: 0 0 10px rgba(76, 51, 152, 0.6), 0 0 18px rgba(76, 51, 152, 0.4);
+  }
+}
+
+/* ── Begin button: breathing glow ── */
+.btn-begin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 1px solid rgba(123, 94, 167, 0.45);
+  border-radius: 60px;
+  padding: 18px 48px;
+  cursor: pointer;
+  overflow: hidden;
+  margin-top: 10px;
+  animation: btnBreath 3.5s ease-in-out infinite;
+  transition: border-color 0.3s, transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+
+.btn-begin:hover {
+  animation-play-state: paused;
+  border-color: var(--c-glow);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:
+    0 0 40px rgba(76, 51, 152, 0.7),
+    0 0 80px rgba(76, 51, 152, 0.35),
+    0 0 120px rgba(216, 186, 145, 0.12),
+    0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.btn-begin:active {
+  transform: translateY(0) scale(0.98);
+}
+
+@keyframes btnBreath {
+  0%, 100% {
+    border-color: rgba(123, 94, 167, 0.5);
+    box-shadow:
+      0 0 18px rgba(76, 51, 152, 0.3),
+      0 0 36px rgba(76, 51, 152, 0.15);
+  }
+  50% {
+    border-color: rgba(182, 157, 240, 0.8);
+    box-shadow:
+      0 0 40px rgba(76, 51, 152, 0.6),
+      0 0 80px rgba(76, 51, 152, 0.3),
+      0 0 110px rgba(216, 186, 145, 0.12),
+      0 10px 35px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.btn-begin__aura {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(76, 51, 152, 0.5), rgba(123, 94, 167, 0.25));
+  animation: breatheAura 3.5s ease-in-out infinite;
+  transition: opacity 0.4s;
+}
+
+@keyframes breatheAura {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.btn-begin:hover .btn-begin__aura {
+  opacity: 1;
+}
+
+.btn-begin__ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: 60px;
+  background: linear-gradient(
+    135deg,
+    rgba(182, 157, 240, 0.3),
+    rgba(216, 186, 145, 0.2),
+    rgba(182, 157, 240, 0.3)
+  );
+  animation: breatheRing 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes breatheRing {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.7; }
+}
+
+.btn-begin:hover .btn-begin__ring {
+  animation: none;
+  opacity: 1;
+}
+
+.btn-begin__text {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+  color: var(--c-gold-pale);
+}
+
+.btn-begin__arrow {
+  position: relative;
+  z-index: 1;
+  color: var(--c-glow);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.btn-begin:hover .btn-begin__arrow {
+  transform: translateX(5px);
+}
+
+/* ── History button ── */
+.btn-history {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(17, 8, 30, 0.5);
+  border: 1px solid rgba(123, 94, 167, 0.2);
+  border-radius: 30px;
+  padding: 9px 22px;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: rgba(212, 196, 240, 0.5);
+  cursor: pointer;
+  transition: all 0.35s var(--ease-out);
+}
+
+.btn-history:hover {
+  border-color: rgba(123, 94, 167, 0.45);
+  color: var(--c-pale);
+  background: rgba(76, 51, 152, 0.15);
+  box-shadow: 0 4px 18px rgba(76, 51, 152, 0.2);
+}
+
+.btn-history svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ── Dictionary hint link ── */
+.landing-hint {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: rgba(212, 196, 240, 0.4);
+  letter-spacing: 0.08em;
+  font-style: italic;
+  animation: hintFade 4s ease-in-out infinite alternate;
+  cursor: pointer;
+}
+
+@keyframes hintFade {
+  from { opacity: 0.3; }
+  to { opacity: 0.7; }
+}
+
+/* ── Card fan for dictionary link ── */
+.dict-card-fan {
+  position: relative;
+  display: inline-flex;
+  width: 40px;
+  height: 28px;
+}
+
+.fan-card {
+  position: absolute;
+  width: 20px;
+  height: 28px;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.fan-card-1 { left: 0; transform: rotate(-12deg); z-index: 1; }
+.fan-card-2 { left: 8px; transform: rotate(0deg); z-index: 2; }
+.fan-card-3 { left: 16px; transform: rotate(12deg); z-index: 3; }
+
+.landing-hint:hover .fan-card-1 { transform: rotate(-20deg) translateX(-4px); }
+.landing-hint:hover .fan-card-2 { transform: rotate(0deg) translateY(-4px); }
+.landing-hint:hover .fan-card-3 { transform: rotate(20deg) translateX(4px); }
+
+/* ── Staggered reveal items ── */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: revealUp 0.7s var(--ease-out) forwards;
+  animation-delay: calc(var(--di) * 0.2s + 0.5s);
+}
+
+@keyframes revealUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Daily draw floating widget ── */
+.btn-float-action {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 50;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 186, 145, 0.25);
+  background: rgba(17, 8, 30, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 12px rgba(216, 186, 145, 0.1);
+  transition: all 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+}
+
+.btn-float-action:hover {
+  transform: scale(1.1);
+  border-color: var(--c-gold);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(216, 186, 145, 0.2);
+}
+
+.btn-float-action img {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.daily-draw__ring-mini {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 186, 145, 0.2);
+  animation: spin-slow 8s linear infinite;
+}
+
+/* ── Floating icon buttons (corners) ── */
+.btn-float-icon {
+  position: fixed;
+  z-index: 50;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(123, 94, 167, 0.25);
+  background: rgba(17, 8, 30, 0.8);
+  color: rgba(212, 196, 240, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-float-icon:hover {
+  border-color: var(--c-violet);
+  color: var(--c-pale);
+  background: rgba(76, 51, 152, 0.2);
+  box-shadow: 0 4px 24px rgba(76, 51, 152, 0.2);
+  transform: translateY(-2px);
+}

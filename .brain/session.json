@@ -1,36 +1,38 @@
 {
-  "updated_at": "2026-03-30T22:57:55+07:00",
+  "updated_at": "2026-03-31T17:20:00+07:00",
   "current_branch": "develop",
-  "active_handoff_id": "handoff-20260330-2257",
+  "active_handoff_id": "handoff-20260331-1721",
   "working_on": {
-    "task": "Prepare to build Card UI component using dataset and GSAP animations"
+    "task": "Kết nối dữ liệu Journey Form với API LLM / Reading Flow để bắt đầu nghi thức rút bài"
   },
   "git_snapshot": {
-    "head_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
-    "last_saved_head_sha": null,
-    "base_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+    "head_sha": "db592045e86b4115285f0dfce58e2f5613855a1e",
+    "last_saved_head_sha": "db592045e86b4115285f0dfce58e2f5613855a1e",
+    "base_sha": "fd53405f1fcd542c7ba0a4965f84d7ac39033f11",
     "branch": "develop",
     "has_uncommitted_changes": false,
     "changed_files": [],
     "staged_files": [],
     "unstaged_files": [],
     "untracked_files": [],
-    "commit_range": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
+    "commit_range": "fd53405..db59204",
     "commits_since_last_save": [
       {
-        "sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3",
-        "message": "feat: update card and tarot dataset"
+        "sha": "db59204",
+        "message": "feat(landing): implement complete mystical journey form with custom UI pickers and focus screen"
       }
     ]
   },
   "pending_tasks": [
-    "Tạo giao diện lá bài (Card Component) có hiệu ứng lật, viền glow xịn",
-    "Lập trình luồng trải bài nghi thức bằng GSAP (Reading Flow)",
-    "Cấu hình Next.js API Routes để gọi LLM tính toán quẻ nội suy"
+    "Cấu hình Next.js API Routes để gọi LLM tính toán quẻ nội suy",
+    "Thiết kế Reading Flow: GSAP lật lá bài ảo, drag & drop",
+    "Xây dựng Card Component UI: hiệu ứng flip, glow border với dark mystical theme"
   ],
   "recent_changes": [
-    "Tải xuống và dọn dẹp thư mục public/cards để chỉ chừa 78 lá bài xịn",
-    "Tạo auto-mapping regex script sửa được toàn bộ thuộc tính image/img trong src/json/tarot.ts về đúng chuẩn file mới"
+    "Hoàn tất luồng nhập liệu JourneyFormModal 100% (4 steps + validation + Focus Screen) (commit db59204)",
+    "Bổ sung DateModal, ThemeSelect, SpreadRadio Layout, QuestionTabs custom inputs (commit db59204)",
+    "Cài đặt framer-motion để xử lý mượt mà animatePresence modal switch (commit db59204)",
+    "Hợp nhất trạng thái Next.js/Tailwind CSS v4 (commit 2c5b169)"
   ],
   "uncommitted_summary": {
     "status": "clean",

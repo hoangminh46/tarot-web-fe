@@ -4,8 +4,9 @@
   "tech_stack": {
     "framework": "Next.js 15.3.0",
     "styling": "Tailwind CSS v4",
-    "animation": "GSAP 3.12.7",
-    "language": "TypeScript"
+    "animation": "GSAP 3.12.7, framer-motion",
+    "language": "TypeScript",
+    "react": "React 19"
   },
   "database_schema": {
     "tarot_cards": "78 completed cards with aspects (love, career, etc.), upright, reversed, keywords, numerology, planet, zodiac. Located in src/json/tarot.ts."
@@ -15,12 +16,19 @@
     {
       "name": "Data & Assets Layer",
       "status": "completed",
-      "last_verified_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3"
+      "last_verified_sha": "fd53405f1fcd542c7ba0a4965f84d7ac39033f11"
+    },
+    {
+      "name": "Journey Form Modal",
+      "status": "completed",
+      "last_verified_sha": "db592045e86b4115285f0dfce58e2f5613855a1e"
     }
   ],
   "business_rules": [
     "Images are served statically from public/cards/",
     "Theme matches competitor: Dark Mystical (Void/Violet/Gold)",
-    "UX focuses on ritualized interaction with GSAP micro-animations"
+    "UX focuses on ritualized interaction with GSAP micro-animations and framer-motion",
+    "CSS uses Tailwind CSS v4 utility classes",
+    "Journey Form uses createPortal and disables click-outside-to-close to preserve flow"
   ]
 }

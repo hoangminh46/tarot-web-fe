@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import './tarotCards.css';
 import tarot from '@/json/tarot';
+import type { TarotCard } from '@/json/tarot';
 
 // Hàm xáo trộn bài mạnh hơn (Fisher-Yates shuffle)
-const shuffleArray = (array: any) => {
+const shuffleArray = <T,>(array: T[]): T[] => {
   const newArray = [...array];
   for (let i = newArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -26,7 +28,7 @@ export default function TarotCards() {
   const [canSelectCards, setCanSelectCards] = useState(false);
   
   // Lưu thông tin chi tiết của lá bài đã chọn
-  const [selectedCardDetails, setSelectedCardDetails] = useState<any[]>([]);
+  const [selectedCardDetails, setSelectedCardDetails] = useState<TarotCard[]>([]);
   
   // Sửa lỗi hydration bằng cách khởi tạo với mảng gốc
   const [shuffledCards, setShuffledCards] = useState(tarot.cards);
@@ -258,7 +260,7 @@ export default function TarotCards() {
   };
 
   // Hiệu ứng lật thẻ bài cho lá bài bí ẩn
-  const flipCardToReveal = (index: number, cardInfo: any) => {
+  const flipCardToReveal = (index: number, cardInfo: TarotCard) => {
     const mysteryCardItem = document.querySelectorAll('.mystery-card-item')[index] as HTMLElement;
     const mysteryCardElement = mysteryCardItem.querySelector('.mystery-card') as HTMLElement;
     
@@ -391,7 +393,7 @@ export default function TarotCards() {
           <div key={index} className="flex flex-col items-center gap-2.5 mystery-card-item">
             <div className={`w-[143px] h-[253px] overflow-visible rounded-lg perspective-[1000px] preserve-3d transition-transform duration-300 ease-in-out relative mystery-card ${selectedCardDetails[index] ? 'revealed' : ''}`}>
               {/* Mặc định hiển thị hình ảnh bí ẩn, sẽ được thay thế bởi code JavaScript khi lật */}
-              <img src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" className="w-full h-full object-contain" />
+              <Image src="/svgTarot/ques-card.svg" alt="Lá bài bí ẩn" width={143} height={253} className="w-full h-full object-contain" />
             </div>
             <div className="text-sm font-bold text-center text-[#333] bg-[#f5eee6] py-1.5 px-2.5 rounded shadow-[0_2px_4px_rgba(0,0,0,0.1)] mystery-card-title">
               {title}
