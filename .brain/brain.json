@@ -1,0 +1,26 @@
+{
+  "project_name": "tarot-web-fe",
+  "description": "High-fidelity clone of Mystery Tarot web app with Next.js",
+  "tech_stack": {
+    "framework": "Next.js 15.3.0",
+    "styling": "Tailwind CSS v4",
+    "animation": "GSAP 3.12.7",
+    "language": "TypeScript"
+  },
+  "database_schema": {
+    "tarot_cards": "78 completed cards with aspects (love, career, etc.), upright, reversed, keywords, numerology, planet, zodiac. Located in src/json/tarot.ts."
+  },
+  "api_endpoints": {},
+  "features": [
+    {
+      "name": "Data & Assets Layer",
+      "status": "completed",
+      "last_verified_sha": "2a954f0f269857e7ce6d9cb8dcd02b26e8ee72b3"
+    }
+  ],
+  "business_rules": [
+    "Images are served statically from public/cards/",
+    "Theme matches competitor: Dark Mystical (Void/Violet/Gold)",
+    "UX focuses on ritualized interaction with GSAP micro-animations"
+  ]
+}
