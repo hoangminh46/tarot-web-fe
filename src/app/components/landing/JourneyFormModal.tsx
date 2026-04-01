@@ -13,6 +13,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
   const [step, setStep] = useState(1);
   const [tuple, setTuple] = useState<[number, number]>([1, 1]); // [step, direction]
   const [, setDirection] = useState(1);
+  const [step2ActiveMain, setStep2ActiveMain] = useState<string | null>(null);
   
   const [showFocus, setShowFocus] = useState(false);
   const [shake, setShake] = useState(false);
@@ -29,7 +30,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
 
   const totalSteps = 4;
 
-  const nextStep = () => {
+  const nextStep = (skipTheme: boolean = false) => {
     // Validation on Step 1
     if (step === 1 && formData.name.trim() === "") {
       setShake(true);
@@ -38,6 +39,9 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
     }
 
     if (step < totalSteps) {
+      if (skipTheme && step === 2) {
+        setFormData((prev) => ({ ...prev, theme: "general" }));
+      }
       setStep((prev) => prev + 1);
       setDirection(1);
       setTuple([step + 1, 1]);
@@ -58,6 +62,10 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
   };
 
   const prevStep = () => {
+    if (step === 2 && step2ActiveMain !== null) {
+      setStep2ActiveMain(null);
+      return;
+    }
     if (step > 1) {
       setStep((prev) => prev - 1);
       setDirection(-1);
@@ -112,7 +120,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 20, opacity: 0, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-lg mx-4 flex flex-col bg-[#140a26]/90 border border-[#c9a84c]/30 rounded-2xl shadow-[0_0_40px_rgba(201,168,76,0.1)] overflow-hidden"
+            className="relative w-full max-w-3xl mx-4 flex flex-col bg-[#140a26]/90 border border-[#c9a84c]/30 rounded-2xl shadow-[0_0_40px_rgba(201,168,76,0.1)] overflow-hidden"
             style={{ minHeight: "500px" }}
           >
         {/* Progress Bar (Top Line) */}
@@ -169,8 +177,13 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
               className="flex flex-col flex-1 h-full w-full"
             >
               {step === 1 && (
-                <div className="flex-1 flex flex-col w-full h-full">
-                  <div className={shake ? "animate-shake" : ""}>
+                <div className="flex-1 flex flex-col items-center w-full">
+                  <span className="text-[#c9a84c] opacity-50 font-cinzel text-sm mb-2 drop-shadow-md">I</span>
+                  <h2 className="text-[#c9a84c] font-cinzel text-3xl mb-2 pt-2">Hỏi Người Trải Bài</h2>
+                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-md leading-relaxed text-center">
+                    Thông tin cung cấp chân thành cùng hy vọng giúp vũ trụ kết nối năng lượng chính xác đến bạn
+                  </p>
+                  <div className={`w-full max-w-xl ${shake ? "animate-shake" : ""}`}>
                     <Step1PersonalInfo
                       name={formData.name}
                       onChangeName={(v) => {
@@ -189,12 +202,15 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
                 <div className="flex-1 flex flex-col items-center">
                   <span className="text-[#c9a84c] opacity-50 font-cinzel text-sm mb-2 drop-shadow-md">II</span>
                   <h2 className="text-[#c9a84c] font-cinzel text-3xl mb-2 pt-2">Chọn Lĩnh Vực</h2>
-                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-sm leading-relaxed text-center">
+                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-md leading-relaxed text-center">
                     Vũ trụ cần biết bạn muốn khám phá điều gì
                   </p>
                   <Step2Theme
                     theme={formData.theme}
                     onChangeTheme={(v) => setFormData({ ...formData, theme: v })}
+                    onNextStep={() => nextStep(false)}
+                    activeMain={step2ActiveMain}
+                    setActiveMain={setStep2ActiveMain}
                   />
                 </div>
               )}
@@ -202,7 +218,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
                 <div className="flex-1 flex flex-col items-center">
                   <span className="text-[#c9a84c] opacity-50 font-cinzel text-sm mb-2 drop-shadow-md">III</span>
                   <h2 className="text-[#c9a84c] font-cinzel text-3xl mb-2 pt-2">Câu Hỏi Của Bạn</h2>
-                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-sm leading-relaxed text-center">
+                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-md leading-relaxed text-center">
                     Hãy đặt câu hỏi với tất cả sự thành tâm
                   </p>
                   <Step3Question
@@ -216,7 +232,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
                 <div className="flex-1 flex flex-col items-center">
                   <span className="text-[#c9a84c] opacity-50 font-cinzel text-sm mb-2 drop-shadow-md">IV</span>
                   <h2 className="text-[#c9a84c] font-cinzel text-3xl mb-2 pt-2">Nghi Thức Trải Bài</h2>
-                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-sm leading-relaxed text-center">
+                  <p className="text-[#e8b4ff]/80 font-eb-garamond italic mb-8 text-base max-w-md leading-relaxed text-center">
                     Mỗi kiểu trải bài mang một chiều sâu khác nhau
                   </p>
                   <Step4Spread
@@ -254,11 +270,11 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
             )}
 
             <button
-              onClick={nextStep}
+              onClick={() => step === 2 ? nextStep(true) : nextStep(false)}
               className="text-white bg-[#5a21b6] hover:bg-[#6b21a8] px-6 py-2.5 rounded-[1.5rem] font-medium font-serif flex items-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(90,33,182,0.4)]"
             >
-              {step === 4 ? "Mở Bài" : "Tiếp theo"}
-              {step < 4 && (
+              {step === 4 ? "Mở Bài" : step === 2 ? "Bỏ Qua" : "Tiếp theo"}
+              {step < 4 && step !== 2 && (
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>

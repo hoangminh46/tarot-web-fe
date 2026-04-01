@@ -1,29 +1,29 @@
 import type { Metadata } from "next";
 import {
-  Cinzel_Decorative,
-  Cinzel,
-  Philosopher,
+  Cormorant_SC,
+  Cormorant_Garamond,
+  Playfair_Display,
   EB_Garamond,
 } from "next/font/google";
 import "./globals.css";
 
-const cinzelDecorative = Cinzel_Decorative({
+const cinzelDecorative = Cormorant_SC({
   variable: "--font-cinzel-decorative",
-  subsets: ["latin"],
-  weight: ["400", "700", "900"],
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const cinzel = Cinzel({
+const cinzel = Cormorant_Garamond({
   variable: "--font-cinzel",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-const philosopher = Philosopher({
+const philosopher = Playfair_Display({
   variable: "--font-philosopher",
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
   weight: ["400", "700"],
   style: ["normal", "italic"],
   display: "swap",

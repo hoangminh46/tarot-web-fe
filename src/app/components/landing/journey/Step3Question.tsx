@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { PRESET_QUESTIONS } from "@/json/tarot_themes";
 
 interface Step3Props {
   question: string;
@@ -9,47 +10,43 @@ interface Step3Props {
   selectedTheme: string;
 }
 
-const PRESET_QUESTIONS: Record<string, string[]> = {
-  love: [
-    "Mối quan hệ này có tương lai không?",
-    "Người ấy nghĩ gì về tôi?",
-    "Làm sao để tìm được tình yêu đích thực?",
-  ],
-  career: [
-    "Tôi có nên thay đổi công việc hiện tại?",
-    "Định hướng nghề nghiệp nào phù hợp với tôi?",
-    "Sắp tới công việc của tôi có biến động gì?",
-  ],
-  finance: [
-    "Tình hình tài chính sắp tới của tôi ra sao?",
-    "Tôi có nên đầu tư vào dự án này?",
-    "Làm sao để tôi thu hút được nhiều tài lộc?",
-  ],
-  spirit: [
-    "Bài học tâm linh tôi cần học lúc này là gì?",
-    "Năng lượng hiện tại của tôi đang như thế nào?",
-    "Tôi cần buông bỏ điều gì để bình an hơn?",
-  ],
-  future: [
-    "3 tháng tới cuộc sống của tôi có gì nổi bật?",
-    "Đâu là trở ngại tôi sắp phải đối mặt?",
-    "Tôi cần chuẩn bị gì cho giai đoạn sắp tới?",
-  ],
-  general: [
-    "Thông điệp vũ trụ muốn gửi đến tôi là gì?",
-    "Tôi cần tập trung vào điều gì lúc này?",
-    "Ngày hôm nay của tôi sẽ diễn ra thế nào?",
-  ],
-};
+const DEFAULT_QUESTIONS = [
+  "Thông điệp nào vũ trụ muốn gửi đến tôi lúc này?",
+  "Tôi cần tĩnh tâm và tập trung vào điều gì?",
+  "Ngày hôm nay của tôi sẽ diễn ra thế nào?",
+  "Tôi đang che giấu bản thân mình điều gì?",
+  "Làm sao để tôi lấy lại sự cân bằng trong cuộc sống?",
+];
 
 export default function Step3Question({ question, onChangeQuestion, selectedTheme }: Step3Props) {
   const [mode, setMode] = useState<"preset" | "custom">("preset");
+  const [randomizedQuestions, setRandomizedQuestions] = useState<string[]>([]);
   const maxLength = 200;
 
-  const suggestions = PRESET_QUESTIONS[selectedTheme] || PRESET_QUESTIONS["general"];
+  useEffect(() => {
+    // Lấy câu hỏi từ PRESET_QUESTIONS dựa theo selectedTheme
+    let qsList: string[] = [];
+    const themeQs = (PRESET_QUESTIONS as Record<string, { group: string; qs: string[] }[]>)[selectedTheme];
+    if (themeQs && Array.isArray(themeQs) && themeQs.length > 0) {
+      // themeQs là [{ group: '...', qs: [...] }]
+      themeQs.forEach((g) => {
+        if (g.qs && Array.isArray(g.qs)) {
+          qsList = [...qsList, ...g.qs];
+        }
+      });
+    }
+
+    if (qsList.length === 0) {
+      qsList = DEFAULT_QUESTIONS;
+    }
+
+    // Shuffle and pick 6 to keep UI clean
+    const shuffled = [...qsList].sort(() => 0.5 - Math.random());
+    setRandomizedQuestions(shuffled.slice(0, 6));
+  }, [selectedTheme]);
 
   return (
-    <div className="w-full max-w-sm mx-auto flex flex-col gap-6 animate-fade-in relative pb-4">
+    <div className="w-full max-w-lg mx-auto flex flex-col gap-6 animate-fade-in relative pb-4">
       {/* Tab Switcher */}
       <div className="flex bg-[#0a0510]/80 rounded-full p-1 border border-white/5 relative z-10 w-fit mx-auto shadow-inner">
         <button
@@ -95,7 +92,30 @@ export default function Step3Question({ question, onChangeQuestion, selectedThem
               exit={{ opacity: 0, x: 20 }}
               className="flex flex-col gap-3 w-full"
             >
-              {suggestions.map((p, idx) => (
+              <div className="flex justify-end mb-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    let qsList: string[] = [];
+                    const themeQs = (PRESET_QUESTIONS as Record<string, { group: string; qs: string[] }[]>)[selectedTheme];
+                    if (themeQs && Array.isArray(themeQs) && themeQs.length > 0) {
+                      themeQs.forEach((g) => { qsList = [...qsList, ...(g.qs || [])]; });
+                    }
+                    if (qsList.length === 0) qsList = DEFAULT_QUESTIONS;
+                    setRandomizedQuestions([...qsList].sort(() => 0.5 - Math.random()).slice(0, 6));
+                  }}
+                  className="text-white/40 hover:text-[#c9a84c] transition-colors text-xs font-serif flex items-center gap-1"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="1 4 1 10 7 10" />
+                    <polyline points="23 20 23 14 17 14" />
+                    <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10" />
+                    <path d="M3.51 15A9 9 0 0 0 18.36 18.36L23 14" />
+                  </svg>
+                  Đổi gợi ý
+                </button>
+              </div>
+              {randomizedQuestions.map((p, idx) => (
                 <button
                   key={idx}
                   onClick={() => onChangeQuestion(p)}
@@ -122,7 +142,7 @@ export default function Step3Question({ question, onChangeQuestion, selectedThem
                   value={question}
                   onChange={(e) => onChangeQuestion(e.target.value.substring(0, maxLength))}
                   placeholder="Hãy đặt câu hỏi cụ thể, chi tiết và tránh câu hỏi Có/Không..."
-                  className="w-full h-[180px] bg-[#0a0510]/50 border border-white/10 p-5 rounded-xl text-white/90 font-eb-garamond text-[16px] leading-relaxed resize-none focus:outline-none focus:border-[#c9a84c]/60 focus:ring-1 focus:ring-[#c9a84c]/60 transition-all placeholder:text-white/20 placeholder:italic shadow-inner"
+                  className="w-full h-[180px] bg-[#0a0510]/50 border border-white/10 p-5 rounded-xl text-white/90 font-eb-garamond text-[16px] leading-relaxed resize-none focus:outline-none focus:border-[#c9a84c]/60 focus:shadow-[0_0_15px_rgba(201,168,76,0.4)] transition-all placeholder:text-white/20 placeholder:italic shadow-inner"
                 />
                 <span
                   className={`absolute bottom-4 right-4 text-xs font-mono transition-colors ${

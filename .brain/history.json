@@ -99,6 +99,38 @@
         "Implement màn hình Draw Cards (Lật lá/rút bài)."
       ],
       "open_questions": []
+    },
+    {
+      "id": "handoff-20260401-1731",
+      "saved_at": "2026-04-01T17:31:00+07:00",
+      "branch": "develop",
+      "head_sha": "04559d823f7a3453a53e73adb299fafe01c698a4",
+      "base_sha": "db592045e86b4115285f0dfce58e2f5613855a1e",
+      "source": "commit",
+      "commit_range": "db59204..04559d8",
+      "summary": "Nâng cấp toàn diện Journey Form Modal: Đồng bộ hệ thống Theme Taxonomy & Preset questions, mở rộng lưới components, tối giản flow nhập liệu ánh sáng và khắc phục hiển thị font Tiếng Việt.",
+      "project_changes": [
+        "Thêm mới cơ sở dữ liệu taxonomy Lĩnh vực và 1000+ câu hỏi tự động (src/json/tarot_themes.ts)",
+        "Đổi font Google Cinzel/Philosopher -> Cormorant SC/Cormorant Garamond/Playfair Display xử lý lỗi hiển thị Tiếng Việt",
+        "Mở rộng JourneyFormModal lên max-w-3xl, thiết lập lại UI các step theo grid mới",
+        "Chuẩn hóa effect glowing ánh sáng, bỏ hover."
+      ],
+      "commits": [
+        {
+          "sha": "04559d8",
+          "message": "feat(journey): refactor Form UI, integrate Theme Taxonomy, and resolve VN fonts"
+        }
+      ],
+      "working_tree": [],
+      "decisions": [
+        "Hoàn chỉnh Typography natively từ next/font/google chuyên biệt subset vietnamese.",
+        "Thiết kế taxonomy thành cấu trúc mảng để query O(1) hoặc array.find() thay vì chọc server nội bộ."
+      ],
+      "next_steps": [
+        "Bắt tay vào thiết kế logic Rút Bài (Draw Cards) với dữ liệu từ form trả về",
+        "Tạo GSAP animations và Card components"
+      ],
+      "open_questions": []
     }
   ]
 }
