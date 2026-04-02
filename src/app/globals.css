@@ -57,7 +57,7 @@
   --font-display: var(--font-cinzel-decorative), "Cinzel Decorative", serif;
   --font-heading: var(--font-cinzel), "Cinzel", serif;
   --font-ui: var(--font-philosopher), "Philosopher", serif;
-  --font-body: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
+  --font-body: var(--font-philosopher), "Philosopher", serif;
 }
 
 /* ── Register colors & fonts into Tailwind v4 ── */
@@ -194,30 +194,27 @@ a, button, [role="button"], input, select, textarea, .cursor-pointer {
   z-index: 1;
   pointer-events: none;
   background-image:
-    radial-gradient(1.5px 1.5px at 10% 15%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(2px 2px at 25% 45%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(2.5px 2.5px at 45% 35%, rgba(182,157,240,0.8), transparent), /* Center cluster */
-    radial-gradient(1.5px 1.5px at 55% 50%, rgba(255,255,255,0.9), transparent), /* Center cluster */
-    radial-gradient(2px 2px at 40% 60%, rgba(255,255,255,0.7), transparent), /* Center cluster */
-    radial-gradient(3px 3px at 50% 45%, rgba(182,157,240,0.6), transparent), /* Center cluster */
-    radial-gradient(1.5px 1.5px at 15% 80%, rgba(255,255,255,0.45), transparent),
-    radial-gradient(2px 2px at 90% 85%, rgba(255,255,255,0.55), transparent),
-    radial-gradient(2.5px 2.5px at 50% 25%, rgba(216,186,145,0.7), transparent), /* Center top */
-    radial-gradient(1.5px 1.5px at 35% 55%, rgba(255,255,255,0.8), transparent), /* Center cluster */
-    radial-gradient(2px 2px at 60% 40%, rgba(182,157,240,0.85), transparent), /* Center cluster */
-    radial-gradient(1.5px 1.5px at 80% 70%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(2px 2px at 65% 55%, rgba(216,186,145,0.6), transparent), /* Center cluster */
-    radial-gradient(1.5px 1.5px at 45% 75%, rgba(255,255,255,0.65), transparent), /* Center bottom */
-    radial-gradient(2px 2px at 95% 15%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(2.5px 2.5px at 55% 30%, rgba(182,157,240,0.7), transparent); /* Center cluster */
+    radial-gradient(1px 1px at 12% 16%, rgba(255,255,255,0.16), transparent),
+    radial-gradient(1.2px 1.2px at 24% 42%, rgba(255,255,255,0.12), transparent),
+    radial-gradient(1.4px 1.4px at 47% 34%, rgba(182,157,240,0.16), transparent),
+    radial-gradient(1.1px 1.1px at 56% 52%, rgba(255,255,255,0.16), transparent),
+    radial-gradient(1.3px 1.3px at 39% 62%, rgba(216,186,145,0.14), transparent),
+    radial-gradient(1.2px 1.2px at 52% 26%, rgba(196,177,249,0.14), transparent),
+    radial-gradient(1px 1px at 16% 78%, rgba(255,255,255,0.1), transparent),
+    radial-gradient(1.2px 1.2px at 84% 72%, rgba(255,255,255,0.11), transparent),
+    radial-gradient(1.4px 1.4px at 64% 48%, rgba(182,157,240,0.14), transparent),
+    radial-gradient(1px 1px at 72% 28%, rgba(216,186,145,0.1), transparent),
+    radial-gradient(1.1px 1.1px at 42% 74%, rgba(255,255,255,0.12), transparent),
+    radial-gradient(1px 1px at 90% 18%, rgba(255,255,255,0.1), transparent);
   background-size: 100% 100%;
-  animation: starsTwinkle 8s ease-in-out infinite alternate;
+  opacity: 0.8;
+  animation: starsTwinkle 12s ease-in-out infinite alternate;
 }
 
 @keyframes starsTwinkle {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.7; }
+  0% { opacity: 0.55; }
+  50% { opacity: 0.82; }
+  100% { opacity: 0.62; }
 }
 
 /* Film grain noise texture (Tarotoo technique: base64 PNG repeat) */

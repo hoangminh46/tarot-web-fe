@@ -271,7 +271,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
 
             <button
               onClick={() => step === 2 ? nextStep(true) : nextStep(false)}
-              className="text-white bg-[#5a21b6] hover:bg-[#6b21a8] px-6 py-2.5 rounded-[1.5rem] font-medium font-serif flex items-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(90,33,182,0.4)]"
+              className="text-white bg-[#5a21b6] hover:bg-[#6b21a8] px-6 py-2.5 rounded-[1.5rem] font-medium font-eb-garamond flex items-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(90,33,182,0.4)]"
             >
               {step === 4 ? "Mở Bài" : step === 2 ? "Bỏ Qua" : "Tiếp theo"}
               {step < 4 && step !== 2 && (

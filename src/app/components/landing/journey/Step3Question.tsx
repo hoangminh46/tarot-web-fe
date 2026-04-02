@@ -104,7 +104,7 @@ export default function Step3Question({ question, onChangeQuestion, selectedThem
                     if (qsList.length === 0) qsList = DEFAULT_QUESTIONS;
                     setRandomizedQuestions([...qsList].sort(() => 0.5 - Math.random()).slice(0, 6));
                   }}
-                  className="text-white/40 hover:text-[#c9a84c] transition-colors text-xs font-serif flex items-center gap-1"
+                  className="text-white/40 hover:text-[#c9a84c] transition-colors text-xs font-eb-garamond flex items-center gap-1"
                 >
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="1 4 1 10 7 10" />

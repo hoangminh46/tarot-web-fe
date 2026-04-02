@@ -8,9 +8,235 @@
   animation: centerFloat 10s ease-in-out infinite alternate;
 }
 
+.hero-focal {
+  width: min(72vw, 380px);
+  height: min(72vw, 420px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+.hero-lightbeam {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(216, 186, 145, 0.24) 0%, rgba(216, 186, 145, 0.08) 22%, transparent 58%),
+    linear-gradient(180deg, rgba(216, 186, 145, 0.22) 0%, rgba(182, 157, 240, 0.14) 30%, rgba(76, 51, 152, 0.06) 54%, transparent 84%);
+  clip-path: polygon(40% 0%, 60% 0%, 77% 100%, 23% 100%);
+  filter: blur(18px);
+  opacity: 0.84;
+  animation: heroBeamPulse 7s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.hero-aura-cloud {
+  position: absolute;
+  inset: 12% 10% 18%;
+  border-radius: 999px;
+  filter: blur(28px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.hero-aura-cloud--violet {
+  background: radial-gradient(circle at 50% 46%, rgba(123, 94, 167, 0.32) 0%, rgba(76, 51, 152, 0.16) 34%, transparent 72%);
+  animation: auraCloudPulse 9s ease-in-out infinite alternate;
+}
+
+.hero-aura-cloud--gold {
+  inset: 20% 16% 24%;
+  background: radial-gradient(circle at 50% 36%, rgba(216, 186, 145, 0.18) 0%, rgba(216, 186, 145, 0.08) 28%, transparent 68%);
+  animation: auraCloudPulse 11s ease-in-out infinite alternate-reverse;
+}
+
+.hero-halo,
+.hero-orbit,
+.hero-runes {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.hero-halo--outer {
+  width: min(64vw, 320px);
+  height: min(64vw, 320px);
+  border: 1px solid rgba(216, 186, 145, 0.2);
+  box-shadow:
+    0 0 35px rgba(216, 186, 145, 0.15),
+    inset 0 0 40px rgba(182, 157, 240, 0.05);
+  animation: haloRotate 24s linear infinite;
+}
+
+.hero-halo--inner {
+  width: min(52vw, 248px);
+  height: min(52vw, 248px);
+  border: 1px solid rgba(182, 157, 240, 0.14);
+  box-shadow: 0 0 26px rgba(123, 94, 167, 0.16);
+  animation: haloRotateReverse 18s linear infinite;
+}
+
+.hero-orbit {
+  border: 1px dashed rgba(216, 186, 145, 0.08);
+}
+
+.hero-orbit--one {
+  width: min(70vw, 344px);
+  height: min(44vw, 214px);
+  animation: haloRotate 30s linear infinite;
+}
+
+.hero-orbit--two {
+  width: min(52vw, 250px);
+  height: min(62vw, 294px);
+  transform: translate(-50%, -50%) rotate(62deg);
+  animation: haloFloat 9s ease-in-out infinite alternate;
+}
+
+.hero-runes--outer {
+  width: min(68vw, 340px);
+  height: min(68vw, 340px);
+  z-index: 1;
+  animation: haloRotate 34s linear infinite;
+}
+
+.hero-runes--inner {
+  width: min(56vw, 276px);
+  height: min(56vw, 276px);
+  z-index: 2;
+  animation: haloRotateReverse 22s linear infinite;
+}
+
+.hero-card-fan {
+  position: relative;
+  width: min(62vw, 320px);
+  height: min(72vw, 360px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  filter: drop-shadow(0 18px 45px rgba(0, 0, 0, 0.55));
+}
+
+.hero-card {
+  position: absolute;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(216, 186, 145, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)),
+    rgba(19, 8, 31, 0.8);
+  box-shadow:
+    0 0 24px rgba(216, 186, 145, 0.12),
+    0 0 50px rgba(76, 51, 152, 0.2),
+    0 18px 40px rgba(0, 0, 0, 0.5);
+  transform-origin: bottom center;
+}
+
+.hero-card__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.hero-card--left,
+.hero-card--right {
+  width: min(30vw, 146px);
+  animation: heroCardFloat 7.5s ease-in-out infinite alternate;
+}
+
+.hero-card--left {
+  left: 0;
+  bottom: 28px;
+  transform: rotate(-13deg) translateY(4px);
+  z-index: 1;
+}
+
+.hero-card--center {
+  width: min(34vw, 164px);
+  bottom: 8px;
+  z-index: 3;
+  animation: heroCenterFloat 6.5s ease-in-out infinite alternate;
+  box-shadow:
+    0 0 28px rgba(216, 186, 145, 0.18),
+    0 0 80px rgba(123, 94, 167, 0.22),
+    0 22px 48px rgba(0, 0, 0, 0.55);
+}
+
+.hero-card--right {
+  right: 0;
+  bottom: 28px;
+  transform: rotate(13deg) translateY(4px);
+  z-index: 2;
+  animation-delay: 1.2s;
+}
+
 @keyframes centerFloat {
   0% { transform: translateY(0); }
   100% { transform: translateY(-12px); }
+}
+
+@keyframes heroBeamPulse {
+  0% {
+    opacity: 0.58;
+    transform: scaleY(0.96);
+  }
+  100% {
+    opacity: 0.94;
+    transform: scaleY(1.03);
+  }
+}
+
+@keyframes auraCloudPulse {
+  0% {
+    opacity: 0.52;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes haloRotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes haloRotateReverse {
+  from { transform: translate(-50%, -50%) rotate(360deg); }
+  to { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes haloFloat {
+  0% { transform: translate(-50%, -50%) rotate(62deg) scale(0.98); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) rotate(66deg) scale(1.02); opacity: 0.82; }
+}
+
+@keyframes runeGhost {
+  0% {
+    opacity: 0.32;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  100% {
+    opacity: 0.82;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+@keyframes heroCardFloat {
+  0% { translate: 0 0; }
+  100% { translate: 0 -10px; }
+}
+
+@keyframes heroCenterFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-14px); }
 }
 
 /* ── Background sigil: slow reverse spin + breathing glow ── */
@@ -38,23 +264,12 @@
   filter: drop-shadow(0 0 10px rgba(76, 51, 152, 0.5));
 }
 
-.sigil-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(76, 51, 152, 0.3) 0%,
-    rgba(182, 157, 240, 0.08) 40%,
-    transparent 75%
-  );
-  animation: sigilBreath 3.5s ease-in-out infinite alternate;
-}
-
 /* ── Title reveal animation ── */
 .landing-title {
   filter: drop-shadow(0 0 25px rgba(182, 157, 240, 0.5));
   animation: titleBreathe 6s ease-in-out infinite alternate;
+  position: relative;
+  z-index: 2;
 }
 
 .title-word {
@@ -72,24 +287,6 @@
   }
 }
 
-/* ── Rune characters ── */
-.rune {
-  animation: runePulse 2.5s ease-in-out infinite alternate;
-  text-shadow: 0 0 5px rgba(216, 186, 145, 0.25);
-}
-
-.rune:nth-child(3) { animation-delay: 0.8s; }
-.rune:nth-child(5) { animation-delay: 1.6s; }
-.rune:nth-child(7) { animation-delay: 2.4s; }
-
-.rune-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(123, 94, 167, 0.7);
-  box-shadow: 0 0 6px rgba(76, 51, 152, 0.5);
-  animation: dotPulse 2.5s ease-in-out infinite alternate;
-}
 
 @keyframes dotPulse {
   from {

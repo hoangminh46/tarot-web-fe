@@ -2,84 +2,93 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Sigil from "@/app/components/common/Sigil";
 import MysticalButton from "@/app/components/common/MysticalButton";
 import { JourneyFormModal } from "./JourneyFormModal";
 
 /**
  * LandingHero — Nội dung trung tâm landing page.
- * Bao gồm: Sigil, Title, Subtitle, Rune row, CTA button,
+ * Gồm: Title, Subtitle, Rune row, CTA button,
  * History button, Dictionary link.
  */
 export default function LandingHero() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const handleBeginJourney = () => {
-    // Mở form overlay nhập thông tin
     setIsFormOpen(true);
   };
 
   return (
-    <div className="landing-center relative z-[5] flex flex-col items-center gap-[18px] text-center px-5 py-10 select-none">
-      {/* Sigil xoay */}
-      <Sigil size={200} />
+    <div className="landing-center relative z-[5] flex select-none flex-col items-center gap-[18px] px-5 py-10 text-center">
+      <div
+        className="reveal-item hero-focal relative mb-1"
+        style={{ "--di": 0 } as React.CSSProperties}
+      >
+        <div className="hero-lightbeam" />
+        <div className="hero-aura-cloud hero-aura-cloud--violet" />
+        <div className="hero-aura-cloud hero-aura-cloud--gold" />
+        <div className="hero-halo hero-halo--outer" />
+        <div className="hero-halo hero-halo--inner" />
+        <div className="hero-orbit hero-orbit--one" />
+        <div className="hero-orbit hero-orbit--two" />
+        <div className="hero-card-fan">
+          <div className="hero-card hero-card--left">
+            <Image
+              src="/cards/17-The-Star.jpg"
+              alt="The Star tarot card"
+              width={170}
+              height={292}
+              className="hero-card__image"
+              priority
+            />
+          </div>
+          <div className="hero-card hero-card--center">
+            <Image
+              src="/cards/0-The-Fool.jpg"
+              alt="The Fool tarot card"
+              width={188}
+              height={322}
+              className="hero-card__image"
+              priority
+            />
+          </div>
+          <div className="hero-card hero-card--right">
+            <Image
+              src="/cards/1-The-Magician.jpg"
+              alt="The Magician tarot card"
+              width={170}
+              height={292}
+              className="hero-card__image"
+              priority
+            />
+          </div>
+        </div>
+      </div>
 
-      {/* Tiêu đề chính */}
-      <h1 className="landing-title font-display font-black text-[clamp(2rem,6vw,3.8rem)] tracking-[0.04em] leading-[1.2]">
-        <span className="title-word inline-block" style={{ "--wi": 0 } as React.CSSProperties}>
+      <h1 className="landing-title font-display text-[clamp(2rem,6vw,3.8rem)] font-black leading-[1.2] tracking-[0.04em]">
+        <span className="title-word inline-block" style={{ "--wi": 1 } as React.CSSProperties}>
           Tarot
-        </span>
-        {" "}
+        </span>{" "}
         <span className="inline-block">
-          <span
-            className="title-word inline-block text-gold"
-            style={{ "--wi": 1 } as React.CSSProperties}
-          >
-            Huyền
-          </span>
-          {" "}
           <span
             className="title-word inline-block text-gold"
             style={{ "--wi": 2 } as React.CSSProperties}
           >
-            Bí
-          </span>
+            Healing
+          </span>{" "}
         </span>
       </h1>
 
-      {/* Subtitle */}
       <p
-        className="reveal-item font-ui text-[clamp(0.75rem,1.8vw,0.95rem)] text-pale tracking-[0.22em] uppercase opacity-80"
+        className="reveal-item font-ui text-[clamp(0.75rem,1.8vw,0.95rem)] uppercase tracking-[0.22em] text-pale opacity-80"
         style={{ "--di": 0 } as React.CSSProperties}
       >
-        Nhìn xuyên màn đêm &mdash; Khám phá vận mệnh
+        Nhìn xuyên màn đêm — Khám phá vận mệnh
       </p>
 
-      {/* Rune row — ký tự cổ đại trang trí */}
-      <div
-        className="reveal-item flex items-center gap-3.5 my-1"
-        style={{ "--di": 1 } as React.CSSProperties}
-      >
-        <span className="rune text-lg">&#x16A0;</span>
-        <span className="rune-dot" />
-        <span className="rune text-lg">&#x16B9;</span>
-        <span className="rune-dot" />
-        <span className="rune text-lg">&#x16C1;</span>
-        <span className="rune-dot" />
-        <span className="rune text-lg">&#x16A2;</span>
+      <div className="reveal-item" style={{ "--di": 2 } as React.CSSProperties}>
+        <MysticalButton onClick={handleBeginJourney}>Bắt Đầu Hành Trình</MysticalButton>
       </div>
 
-      {/* Nút CTA chính */}
-      <div
-        className="reveal-item"
-        style={{ "--di": 2 } as React.CSSProperties}
-      >
-        <MysticalButton onClick={handleBeginJourney}>
-          Bắt Đầu Hành Trình
-        </MysticalButton>
-      </div>
-
-      {/* Nút lịch sử trải bài */}
       <button
         className="reveal-item btn-history"
         style={{ "--di": 3 } as React.CSSProperties}
@@ -89,10 +98,9 @@ export default function LandingHero() {
           <circle cx="12" cy="12" r="10" />
           <polyline points="12 6 12 12 16 14" />
         </svg>
-        Thông điệp quá khứ
+        Thông Điệp Quá Khứ
       </button>
 
-      {/* Link xem ý nghĩa các lá bài (Dictionary) */}
       <p
         className="reveal-item landing-hint inline-flex items-center justify-center gap-2"
         style={{ "--di": 4 } as React.CSSProperties}
@@ -105,7 +113,6 @@ export default function LandingHero() {
         <span>Ý nghĩa các lá bài</span>
       </p>
 
-      {/* Tích hợp Modal nhập thông tin */}
       <JourneyFormModal isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     </div>
   );

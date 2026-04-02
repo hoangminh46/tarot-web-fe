@@ -152,7 +152,7 @@ export default function Step2Theme({ theme, onChangeTheme, onNextStep, activeMai
                   placeholder="Tìm kiếm nhanh chủ đề..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full py-2.5 pl-10 pr-4 rounded-full border border-white/10 bg-transparent text-[#e8b4ff] font-serif outline-none focus:border-[#c9a84c]/60 transition-all placeholder:text-white/30 text-sm focus:shadow-[0_0_15px_rgba(201,168,76,0.4)]"
+                  className="w-full py-2.5 pl-10 pr-4 rounded-full border border-white/10 bg-transparent text-[#e8b4ff] font-eb-garamond outline-none focus:border-[#c9a84c]/60 transition-all placeholder:text-white/30 text-sm focus:shadow-[0_0_15px_rgba(201,168,76,0.4)]"
                 />
                 <svg className="absolute left-4 top-[11px] text-white/30 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8"></circle>
@@ -164,7 +164,7 @@ export default function Step2Theme({ theme, onChangeTheme, onNextStep, activeMai
             <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar pb-2">
               <div className="flex flex-col gap-2">
                 {displayedSubs.length === 0 ? (
-                  <div className="text-center text-[#e8e0ff]/50 py-10 font-serif italic text-sm">
+                  <div className="text-center text-[#e8e0ff]/50 py-10 font-eb-garamond italic text-sm">
                     Không tìm thấy chủ đề phù hợp ✧
                   </div>
                 ) : (
@@ -180,10 +180,10 @@ export default function Step2Theme({ theme, onChangeTheme, onNextStep, activeMai
                         `}
                       >
                         <div className="flex flex-row items-baseline gap-3 overflow-hidden">
-                          <span className="font-serif text-[#c9a84c] font-bold text-sm whitespace-nowrap">
+                          <span className="font-eb-garamond text-[#c9a84c] font-bold text-sm whitespace-nowrap">
                             {s.label}
                           </span>
-                          <span className="text-[13px] font-serif text-white/40 italic truncate">
+                          <span className="text-[13px] font-eb-garamond text-white/40 italic truncate">
                             {s.group ? `${s.group} · ` : ""}{s.desc}
                           </span>
                         </div>
