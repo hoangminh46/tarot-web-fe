@@ -8,6 +8,7 @@ import Step2Theme from "./journey/Step2Theme";
 import Step3Question from "./journey/Step3Question";
 import Step4Spread from "./journey/Step4Spread";
 import { FocusScreen } from "./journey/FocusScreen";
+import ReadingFlow from "../reading/ReadingFlow";
 
 export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const [step, setStep] = useState(1);
@@ -16,6 +17,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
   const [step2ActiveMain, setStep2ActiveMain] = useState<string | null>(null);
   
   const [showFocus, setShowFocus] = useState(false);
+  const [showReadingFlow, setShowReadingFlow] = useState(false);
   const [shake, setShake] = useState(false);
 
   // Form Data State
@@ -53,12 +55,12 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
 
   const handleFinishJourney = () => {
     console.log("FINAL TAROT CEREMONY DATA:", formData);
+    // Ideally we could pass this via context or state manager, but for now we'll store it in sessionStorage
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("tarotJourneyData", JSON.stringify(formData));
+    }
     setShowFocus(false);
-    onClose();
-    // Reset state for next open if needed
-    setStep(1);
-    setTuple([1, 1]);
-    setFormData((prev) => ({ ...prev, name: "", question: "" })); 
+    setShowReadingFlow(true);
   };
 
   const prevStep = () => {
@@ -104,7 +106,7 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
 
   return createPortal(
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && !showReadingFlow && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center">
           {/* Kính mờ phủ toàn màn hình, không có onClick={onClose} để tránh bấm tắt nhầm */}
           <motion.div
@@ -291,6 +293,10 @@ export const JourneyFormModal = ({ isOpen, onClose }: { isOpen: boolean; onClose
       question={formData.question}
       onComplete={handleFinishJourney}
     />
+    
+    {showReadingFlow && (
+      <ReadingFlow />
+    )}
     </AnimatePresence>,
     document.body
   );

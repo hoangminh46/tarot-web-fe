@@ -21,22 +21,16 @@ export const FocusScreen = ({ isOpen, question, onComplete }: FocusScreenProps) 
   useEffect(() => {
     if (isOpen) {
       setCanSkip(false);
-      // Wait 3 seconds before showing skip button
+      // Chờ 3s trước khi hiện nút Sẵn sàng
       const skipTimer = setTimeout(() => {
         setCanSkip(true);
       }, 3000);
 
-      // Auto complete after 15 seconds
-      const completeTimer = setTimeout(() => {
-        onComplete();
-      }, 15000);
-
       return () => {
         clearTimeout(skipTimer);
-        clearTimeout(completeTimer);
       };
     }
-  }, [isOpen, onComplete]);
+  }, [isOpen]);
 
   if (!mounted) return null;
 
@@ -90,9 +84,9 @@ export const FocusScreen = ({ isOpen, question, onComplete }: FocusScreenProps) 
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 onClick={onComplete}
-                className="absolute bottom-12 text-white/30 hover:text-white/80 font-eb-garamond text-sm tracking-widest uppercase transition-colors"
+                className="absolute bottom-12 text-[#c9a84c] hover:text-white hover:drop-shadow-[0_0_10px_rgba(201,168,76,0.8)] font-eb-garamond text-base sm:text-lg tracking-widest uppercase transition-all duration-300 border border-[#c9a84c]/50 px-8 py-3 rounded-full bg-[#c9a84c]/10"
               >
-                [ Bỏ Qua Thiền ]
+                Tôi Đã Sẵn Sàng
               </motion.button>
             )}
           </AnimatePresence>

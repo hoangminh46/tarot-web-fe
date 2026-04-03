@@ -22,7 +22,17 @@
     {
       "name": "Journey Form Modal refactored with Taxonomy & Typography fixes",
       "status": "completed",
-      "last_verified_sha": "04559d823f7a3453a53e73adb299fafe01c698a4"
+      "last_verified_sha": "3a0121c1f1ad7174f4f2622d2f5410ab867ace50"
+    },
+    {
+      "name": "Landing Homepage & UI Layout updates",
+      "status": "completed",
+      "last_verified_sha": "3a0121c1f1ad7174f4f2622d2f5410ab867ace50"
+    },
+    {
+      "name": "Tarot Reading Flow UI & Deck Logic hook",
+      "status": "completed",
+      "last_verified_sha": "6e5bda157547b2a67e0f40c17710ed5737f8569b"
     }
   ],
   "business_rules": [

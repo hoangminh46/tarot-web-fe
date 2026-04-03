@@ -1,38 +1,37 @@
 {
-  "updated_at": "2026-04-01T17:31:00+07:00",
+  "updated_at": "2026-04-03T17:15:00+07:00",
   "current_branch": "develop",
-  "active_handoff_id": "handoff-20260401-1731",
+  "active_handoff_id": "handoff-20260403-1715",
   "working_on": {
-    "task": "Nghi thức rút bài hiển thị lật bài thực tế (Draw Cards Screen/Flow)"
+    "task": "Thiết kế tính năng Reading Flow và luồng trải bài Tarot"
   },
   "git_snapshot": {
-    "head_sha": "04559d823f7a3453a53e73adb299fafe01c698a4",
-    "last_saved_head_sha": "04559d823f7a3453a53e73adb299fafe01c698a4",
-    "base_sha": "db592045e86b4115285f0dfce58e2f5613855a1e",
+    "head_sha": "6e5bda157547b2a67e0f40c17710ed5737f8569b",
+    "last_saved_head_sha": "6e5bda157547b2a67e0f40c17710ed5737f8569b",
+    "base_sha": "3a0121c1f1ad7174f4f2622d2f5410ab867ace50",
     "branch": "develop",
     "has_uncommitted_changes": false,
     "changed_files": [],
     "staged_files": [],
     "unstaged_files": [],
     "untracked_files": [],
-    "commit_range": "db59204..04559d8",
+    "commit_range": "3a0121c..6e5bda1",
     "commits_since_last_save": [
       {
-        "sha": "04559d8",
-        "message": "feat(journey): refactor Form UI, integrate Theme Taxonomy, and resolve VN fonts"
+        "sha": "6e5bda1",
+        "message": "feat(reading): implement initial tarot reading flow and deck logic"
       }
     ]
   },
   "pending_tasks": [
-    "Cấu hình Next.js API Routes để gọi LLM/Gemini tính toán quẻ dựa trên Form Data",
-    "Thiết kế Reading Flow UI: GSAP lật lá bài ảo, drag & drop",
-    "Xây dựng Card Component UI: hiệu ứng flip, hover glow border với dark mystical theme"
+    "Viết script/API Route gọi LLM Gemini để diễn giải trải bài theo dữ liệu nhận từ Form",
+    "Thêm các hiệu ứng GSAP cho 78 lá bài",
+    "Hoàn thiện luồng draw cards (animation lật lá và hover glow)"
   ],
   "recent_changes": [
-    "Thống nhất dữ liệu Lĩnh vực & CHTG thành file src/json/tarot_themes.ts",
-    "Tái cấu trúc UI form 4 bước, fix modal overflow, responsive width 3xl, UI grid 3 cột, search bar (commit 04559d8)",
-    "Map font Google thay thế Cinzel/Philosopher thành Cormorant SC/Cormorant Garamond/Playfair Display fix Tiếng Việt đầy đủ (commit 04559d8)",
-    "Globalized Focus effects (box-shadow tĩnh lặng, bỏ hover) trên tất cả form inputs (commit 04559d8)"
+    "Tạo useTarotDeck array data source và init components cho trang kết quả rút bài",
+    "Thêm FocusScreen chuyển đổi kết nối vào Reading Flow",
+    "Merge giao diện form Journey vào quy trình trải bài cơ bản (commit 6e5bda1)"
   ],
   "uncommitted_summary": {
     "status": "clean",

@@ -131,6 +131,68 @@
         "Tạo GSAP animations và Card components"
       ],
       "open_questions": []
+    },
+    {
+      "id": "handoff-20260403-1435",
+      "saved_at": "2026-04-03T14:35:00+07:00",
+      "branch": "develop",
+      "head_sha": "3a0121c1f1ad7174f4f2622d2f5410ab867ace50",
+      "base_sha": "04559d823f7a3453a53e73adb299fafe01c698a4",
+      "source": "commit",
+      "commit_range": "04559d8..3a0121c",
+      "summary": "Tiếp tục cải thiện giao diện Landing Homepage và Journey Form Modal. Cập nhật layout trang chủ, thay thế thẻ Sigil bằng DynamicStars.",
+      "project_changes": [
+        "Hoàn thiện UI/UX của LandingHero và các component nhập liệu trong các bước của JourneyFormModal",
+        "Cập nhật layout và hiệu ứng trong globals.css và landing.css"
+      ],
+      "commits": [
+        {
+          "sha": "3a0121c",
+          "message": "feat: update layout homepage"
+        }
+      ],
+      "working_tree": [],
+      "decisions": [
+        "Tập trung làm mượt luồng UI/UX layout cho Journey Form Modal và Landing Hero trước khi chuyển qua kết nối API."
+      ],
+      "next_steps": [
+        "Cấu hình Next.js API Routes để gọi LLM/Gemini tính toán quẻ dựa trên thông tin nhận từ Form",
+        "Thiết kế Reading Flow UI: Nghi thức Draw Cards với GSAP lật lá bài ảo, drag & drop",
+        "Xây dựng Card Component UI: hiệu ứng flip, hover glow border với dark mystical theme"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "handoff-20260403-1715",
+      "saved_at": "2026-04-03T17:15:00+07:00",
+      "branch": "develop",
+      "head_sha": "6e5bda157547b2a67e0f40c17710ed5737f8569b",
+      "base_sha": "3a0121c1f1ad7174f4f2622d2f5410ab867ace50",
+      "source": "commit",
+      "commit_range": "3a0121c..6e5bda1",
+      "summary": "Triển khai nền tảng cho Reading Flow: Xây dựng useTarotDeck hook, tạo trang Reading và kết nối hệ thống FocusScreen với Reading Flow UI.",
+      "project_changes": [
+        "Tạo useTarotDeck array data source để phục vụ render và thao tác 78 lá bài",
+        "Tạo framework grid cho ReadingFlow.tsx và page.tsx route riêng",
+        "Sửa đổi JourneyFormModal và FocusScreen để trigger navigation sang /reading"
+      ],
+      "commits": [
+        {
+          "sha": "6e5bda1",
+          "message": "feat(reading): implement initial tarot reading flow and deck logic"
+        }
+      ],
+      "working_tree": [],
+      "decisions": [
+        "Tách riêng logic rút bài qua hook useTarotDeck để tái sử dụng và quản lý state.",
+        "Sử dụng route /reading độc lập để cô lập flow trình duyệt tránh mất trạng thái UX."
+      ],
+      "next_steps": [
+        "Hoàn thiện hệ thống array hiển thị 78 Card Component Grid",
+        "Làm mượt trải nghiệm lật lá bài ảo và state quản lý khi User chọn bài",
+        "Cấu hình Next.js LLM Route API"
+      ],
+      "open_questions": []
     }
   ]
 }
